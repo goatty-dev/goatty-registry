@@ -1,0 +1,136 @@
+{
+  "format": 1,
+  "registry": "official",
+  "sequence": 1,
+  "generated": 1794138116,
+  "plugins": {
+    "bat": {
+      "name": "bat",
+      "summary": "cat with wings: syntax highlighting, line numbers and git changes",
+      "publisher": "goatty",
+      "category": "environment",
+      "keywords": [
+        "cat",
+        "syntax",
+        "highlighting",
+        "pager",
+        "less",
+        "man"
+      ],
+      "homepage": "https://github.com/sharkdp/bat",
+      "versions": {
+        "1.0.0": {
+          "files": {
+            "plugin.toml": "310296e704f13c610a1649512100fd586d08562494bfe2f58f34ba4227a13777"
+          },
+          "permissions": [
+            "binaries",
+            "aliases",
+            "env",
+            "config-files"
+          ],
+          "targets": [
+            "aarch64-linux",
+            "x86_64-linux"
+          ],
+          "goatty": ">=0.0.1",
+          "yanked": false
+        }
+      }
+    },
+    "docker": {
+      "name": "Docker",
+      "summary": "Completion and short aliases for the Docker CLI you already have",
+      "publisher": "goatty",
+      "category": "environment",
+      "keywords": [
+        "docker",
+        "containers",
+        "compose",
+        "completion"
+      ],
+      "homepage": "https://docs.docker.com/engine/cli/completion/",
+      "versions": {
+        "1.0.0": {
+          "files": {
+            "plugin.toml": "9d01dbe71b39714554f5ca4871900f26a8072ec9fce87bbccc140aaff31e415e",
+            "zsh/completion.zsh": "aaa9a930a23aa5ecc8abe705ce6a488c36427bc1de8ea38bde874a86cdadf50b"
+          },
+          "permissions": [
+            "shell-code",
+            "aliases"
+          ],
+          "targets": [],
+          "goatty": ">=0.0.1",
+          "yanked": false
+        }
+      }
+    },
+    "eza": {
+      "name": "eza",
+      "summary": "A modern ls: colors, file icons, git status and a tree view",
+      "publisher": "goatty",
+      "category": "environment",
+      "keywords": [
+        "ls",
+        "files",
+        "list",
+        "tree",
+        "icons",
+        "git"
+      ],
+      "homepage": "https://eza.rocks",
+      "versions": {
+        "1.0.0": {
+          "files": {
+            "plugin.toml": "23165dc6a321e24ed503e76b37bf40eee84b441bd76b4eadb17c337bb7795a45"
+          },
+          "permissions": [
+            "binaries",
+            "aliases"
+          ],
+          "targets": [
+            "aarch64-linux",
+            "x86_64-linux"
+          ],
+          "goatty": ">=0.0.1",
+          "yanked": false
+        }
+      }
+    },
+    "zoxide": {
+      "name": "zoxide",
+      "summary": "Jump to directories you use often: `z proj` instead of `cd ~/code/projects`",
+      "publisher": "goatty",
+      "category": "environment",
+      "keywords": [
+        "cd",
+        "jump",
+        "directories",
+        "navigation",
+        "z",
+        "autojump"
+      ],
+      "homepage": "https://github.com/ajeetdsouza/zoxide",
+      "versions": {
+        "1.0.0": {
+          "files": {
+            "plugin.toml": "7bed7e561a9d21b385832cef5783d0177a28f4eb255a17e792e076a473fc94a2",
+            "zsh/init.zsh": "ed6814683e2e4d4c7142b3a0f4987beb98f5c95549a015781be8970d29f0c186"
+          },
+          "permissions": [
+            "binaries",
+            "shell-code",
+            "env"
+          ],
+          "targets": [
+            "aarch64-linux",
+            "x86_64-linux"
+          ],
+          "goatty": ">=0.0.1",
+          "yanked": false
+        }
+      }
+    }
+  }
+}

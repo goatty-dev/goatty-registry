@@ -1,0 +1,44 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+env:
+  # The key goatty pins for this registry. Changing it here does nothing for
+  # users: it has to match goatty's OFFICIAL_KEYS.
+  OFFICIAL_KEY: 8b70a3acaf8193884b5e34f8341768d42d4f54ddcbe6e650178f6b458e409901
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: dtolnay/rust-toolchain@stable
+      - uses: Swatinem/rust-cache@v2
+      - name: Install goatty-plugin
+        run: cargo install --git https://github.com/goatty-dev/goatty --locked goatty-plugin
+      - name: Validate every plugin
+        run: |
+          status=0
+          for dir in plugins/*/*/; do
+            goatty-plugin validate "$dir" || status=1
+          done
+          exit $status
+      - name: Check every download against its sha256
+        run: goatty-plugin check-downloads plugins/*/*/
+      - name: Verify the committed index's signature and files
+        run: goatty-plugin index verify --trust "$OFFICIAL_KEY"
+      - name: Is the index current?
+        # Contributors don't sign: on pull requests a stale index is expected
+        # until a maintainer publishes. On main it means "not published yet".
+        run: |
+          if ! goatty-plugin index check; then
+            if [ "${{ github.event_name }}" = "pull_request" ]; then
+              echo "::notice::index.json will be rebuilt and signed by a maintainer after merging."
+            else
+              echo "::warning::Plugins changed but index.json wasn't rebuilt and signed: run scripts/publish.sh."
+            fi
+          fi

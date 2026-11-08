@@ -1,0 +1,9 @@
+# The official goatty plugin registry.
+name = "official"
+description = "Plugins maintained and reviewed by the goatty project"
+# Public keys allowed to sign index.json (Ed25519, hex). goatty pins these
+# (crates/goatty-shell/src/plugins/registry.rs: OFFICIAL_KEYS); the secret
+# keys never leave the maintainers' machines.
+keys = ["8b70a3acaf8193884b5e34f8341768d42d4f54ddcbe6e650178f6b458e409901"]
+# "id@version" entries that stay in the index but aren't offered anymore.
+yanked = []

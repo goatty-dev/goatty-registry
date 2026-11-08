@@ -1,0 +1,2 @@
+# The signing key must never be committed.
+*.key

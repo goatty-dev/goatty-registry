@@ -1,0 +1,126 @@
+schema = 1
+id = "zoxide"
+name = "zoxide"
+version = "1.0.0"
+summary = "Jump to directories you use often: `z proj` instead of `cd ~/code/projects`"
+description = """
+zoxide remembers which directories you visit. Then `z` plus a part of the name \
+takes you to the best match: `z dots` jumps to ~/code/dotfiles. `zi` lets you pick \
+from the matches interactively (with fzf, when it's installed). Plain paths still \
+work like cd.
+"""
+publisher = "goatty"
+homepage = "https://github.com/ajeetdsouza/zoxide"
+license = "MIT"
+keywords = ["cd", "jump", "directories", "navigation", "z", "autojump"]
+
+[compat]
+goatty = ">=0.0.1"
+os = ["linux"]
+
+[[package]]
+id = "zoxide"
+version = "0.10.0"
+bin = ["zoxide"]
+
+[[package.asset]]
+target = "x86_64-linux"
+url = "https://github.com/ajeetdsouza/zoxide/releases/download/v0.10.0/zoxide-0.10.0-x86_64-unknown-linux-musl.tar.gz"
+sha256 = "2d93385b99f3e82cf2701609a1bffcad863fbeb75aa3fe7eb6be4d29be68b1ae"
+size = 591384
+
+[[package.asset]]
+target = "aarch64-linux"
+url = "https://github.com/ajeetdsouza/zoxide/releases/download/v0.10.0/zoxide-0.10.0-aarch64-unknown-linux-musl.tar.gz"
+sha256 = "f1f16c5d6298d63dee467eedea1cdcd8490e43e493bea43acd416dc9033ef641"
+size = 551084
+
+# --- Settings ----------------------------------------------------------------
+
+[[setting]]
+id = "command"
+label = "Command"
+help = "What you type to jump. With “cd”, cd itself learns: `cd proj` goes to the best match, and real paths work as always."
+type = "choice"
+default = "z"
+choices = [
+  { value = "z", label = "z", help = "z to jump, zi to pick interactively." },
+  { value = "j", label = "j", help = "j to jump, ji to pick interactively." },
+  { value = "cd", label = "Replace cd", help = "cd to jump, cdi to pick interactively." },
+]
+
+[[setting]]
+id = "echo"
+label = "Show where you jumped"
+help = "Print the directory before changing into it, so you can see which match was picked."
+type = "bool"
+default = false
+
+[[setting]]
+id = "exclude"
+label = "Never remember"
+help = "Directories (or globs like ~/private/*) zoxide shouldn't learn. Empty: everything but your home directory."
+type = "list"
+placeholder = "~/tmp, ~/private/*"
+separator = ":"
+
+[[setting]]
+id = "resolve_symlinks"
+label = "Follow symlinks"
+help = "Remember where a symlinked directory really is, instead of the link."
+type = "bool"
+default = false
+advanced = true
+
+[[setting]]
+id = "hook"
+label = "When to learn"
+help = "When zoxide counts a visit."
+type = "choice"
+default = "pwd"
+advanced = true
+choices = [
+  { value = "pwd", label = "On cd", help = "Each time you change directory." },
+  { value = "prompt", label = "Every prompt", help = "At each prompt: directories you work in for long rank higher." },
+  { value = "none", label = "Never", help = "Only what you add with `zoxide add`." },
+]
+
+[[setting]]
+id = "max_age"
+label = "Database size"
+help = "How much history zoxide keeps before it starts forgetting rarely used directories."
+type = "integer"
+default = 10000
+min = 1000
+max = 1000000
+step = 1000
+advanced = true
+
+# --- Environment (zoxide reads these) ----------------------------------------
+
+[[env]]
+name = "_ZO_ECHO"
+value = "1"
+when = "echo"
+
+[[env]]
+name = "_ZO_EXCLUDE_DIRS"
+value = "{exclude}"
+
+[[env]]
+name = "_ZO_RESOLVE_SYMLINKS"
+value = "1"
+when = "resolve_symlinks"
+
+[[env]]
+name = "_ZO_MAXAGE"
+value = "{max_age}"
+
+# --- Shell code: zoxide's own init script ------------------------------------
+
+[zsh]
+init = "zsh/init.zsh"
+
+[permissions]
+binaries = "zoxide is a program: goatty downloads its official release from GitHub (ajeetdsouza/zoxide) and checks it against the pinned checksum."
+shell-code = "zoxide works by defining the z/zi commands and a hook that records directory changes; zsh/init.zsh runs `zoxide init zsh` for that, nothing else."

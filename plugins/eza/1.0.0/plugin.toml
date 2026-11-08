@@ -1,0 +1,176 @@
+schema = 1
+id = "eza"
+name = "eza"
+version = "1.0.0"
+summary = "A modern ls: colors, file icons, git status and a tree view"
+description = """
+eza lists files like ls does, but easier to read: file types get colors and icons, \
+long listings show each file's git status, and `lt` shows a directory as a tree. \
+With "Use eza for ls" on, ls, ll, la and lt all run eza with the options you pick here.
+"""
+publisher = "goatty"
+homepage = "https://eza.rocks"
+license = "EUPL-1.2"
+keywords = ["ls", "files", "list", "tree", "icons", "git"]
+
+[compat]
+goatty = ">=0.0.1"
+os = ["linux"]
+
+# eza's static (musl) build for x86_64. For aarch64 eza only publishes a
+# glibc build, which needs glibc 2.17 or newer (any current distribution).
+[[package]]
+id = "eza"
+version = "0.23.5"
+bin = ["eza"]
+
+[[package.asset]]
+target = "x86_64-linux"
+url = "https://github.com/eza-community/eza/releases/download/v0.23.5/eza_x86_64-unknown-linux-musl.tar.gz"
+sha256 = "e06eebab74b73d6b7d51a796a353824b001bea82df077706382e100815d28904"
+size = 1412332
+
+[[package.asset]]
+target = "aarch64-linux"
+url = "https://github.com/eza-community/eza/releases/download/v0.23.5/eza_aarch64-unknown-linux-gnu.tar.gz"
+sha256 = "40b87ae8628aa2ff0f0d2dc24ab52f689631366385c3da630bae745671fd71ec"
+size = 1137855
+
+# --- Settings ----------------------------------------------------------------
+
+[[setting]]
+id = "replace_ls"
+label = "Use eza for ls"
+help = "Typing ls, ll (long list), la (with hidden files) and lt (tree) runs eza with the options below. Off: ls stays your system's ls; eza is still there as `eza`."
+type = "bool"
+default = true
+group = "Commands"
+
+[[setting]]
+id = "icons"
+label = "File icons"
+help = "A small icon before each name that shows the file type. Icons need a Nerd Font; without one you'll see empty boxes."
+type = "choice"
+default = "auto"
+arg = "--icons={value}"
+group = "Look"
+choices = [
+  { value = "auto", label = "Automatic", help = "Icons in the terminal; plain names when the output goes to another command or a file." },
+  { value = "always", label = "Always" },
+  { value = "never", label = "Never", arg = "" },
+]
+
+[[setting]]
+id = "folders"
+label = "Folders"
+help = "Where folders go in a listing."
+type = "choice"
+default = "first"
+group = "Look"
+choices = [
+  { value = "first", label = "First", arg = "--group-directories-first" },
+  { value = "mixed", label = "Mixed in", help = "Sorted together with the files, like ls.", arg = "" },
+  { value = "last", label = "Last", arg = "--group-directories-last" },
+]
+
+[[setting]]
+id = "header"
+label = "Column headers"
+help = "Show a header row (Permissions, Size, Date Modified, …) above long listings."
+type = "bool"
+default = false
+arg = "--header"
+group = "Look"
+
+[[setting]]
+id = "color_scale"
+label = "Color by size or age"
+help = "Shade the size and date columns of long listings, so big or recently changed files stand out."
+type = "choice"
+default = "none"
+arg = "--color-scale={value}"
+group = "Look"
+choices = [
+  { value = "none", label = "Off", arg = "" },
+  { value = "size", label = "Size" },
+  { value = "age", label = "Age" },
+  { value = "all", label = "Both" },
+]
+
+[[setting]]
+id = "time_style"
+label = "Date format"
+help = "How long listings show when a file was changed."
+type = "choice"
+default = "default"
+arg = "--time-style={value}"
+group = "Look"
+choices = [
+  { value = "default", label = "Default", help = "Like ls: “7 Nov 14:03”, the year for older files.", arg = "" },
+  { value = "relative", label = "Relative", help = "“3 hours ago”." },
+  { value = "iso", label = "ISO", help = "“11-07 14:03”, the year for older files." },
+  { value = "long-iso", label = "Long ISO", help = "“2026-11-07 14:03”." },
+]
+
+[[setting]]
+id = "git"
+label = "Git status"
+help = "Long listings get a column with each file's git status (new, modified, ignored). Can be slow in very large repositories."
+type = "bool"
+default = true
+arg = "--git"
+group = "Long listings"
+
+[[setting]]
+id = "hyperlinks"
+label = "Clickable names"
+help = "Make file names links (OSC 8) that open the file, in terminals that support them."
+type = "bool"
+default = false
+arg = "--hyperlink"
+group = "Long listings"
+advanced = true
+
+[[setting]]
+id = "tree_depth"
+label = "Tree depth for lt"
+help = "How many levels deep `lt` shows a directory tree."
+type = "integer"
+default = 2
+min = 1
+max = 10
+unit = "levels"
+group = "Commands"
+
+# --- Aliases -----------------------------------------------------------------
+
+[[alias]]
+name = "ls"
+command = "eza"
+args = ["{args}"]
+when = "replace_ls"
+description = "ls runs eza with your options"
+
+[[alias]]
+name = "ll"
+command = "eza"
+args = ["--long", "{args}"]
+when = "replace_ls"
+description = "Long listing: permissions, size, date, git status"
+
+[[alias]]
+name = "la"
+command = "eza"
+args = ["--long", "--all", "{args}"]
+when = "replace_ls"
+description = "Long listing including hidden files"
+
+[[alias]]
+name = "lt"
+command = "eza"
+args = ["--tree", "--level={tree_depth}", "{args}"]
+when = "replace_ls"
+description = "The current directory as a tree"
+
+[permissions]
+binaries = "eza is a program: goatty downloads eza's official release from GitHub (eza-community/eza) and checks it against the pinned checksum."
