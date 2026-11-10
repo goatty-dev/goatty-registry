@@ -1,7 +1,7 @@
 schema = 1
 id = "docker"
 name = "Docker"
-version = "1.0.0"
+version = "1.0.1"
 summary = "Completion and short aliases for the Docker CLI you already have"
 description = """
 Tab completion for docker commands, containers and images, plus short aliases for \

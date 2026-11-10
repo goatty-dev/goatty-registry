@@ -6,8 +6,8 @@
 () {
   local cache=${XDG_CACHE_HOME:-$HOME/.cache}/goatty/docker-completion.zsh
   if [[ ! -s $cache || $commands[docker] -nt $cache ]]; then
-    builtin mkdir -p -- ${cache:h} || return 0
-    docker completion zsh >| $cache.tmp 2>/dev/null && builtin mv -f -- $cache.tmp $cache || { builtin rm -f -- $cache.tmp; return 0 }
+    command mkdir -p -- ${cache:h} || return 0
+    docker completion zsh >| $cache.tmp 2>/dev/null && command mv -f -- $cache.tmp $cache || { command rm -f -- $cache.tmp; return 0 }
   fi
   builtin source -- $cache
 }

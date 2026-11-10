@@ -15,6 +15,7 @@ Every plugin version is reviewed before it's signed into the index. The signatur
 - [ ] Aliases that replace existing commands (`ls`, `cat`, `cd`) are behind a setting, and the help text says so.
 - [ ] Environment variables are the tool's own (no `PATH`, `LD_*`, credentials, proxies).
 - [ ] `zsh.init`, if any: read every line. No network access, no downloads, no `eval` of anything but the tool's own init output, no writes outside `~/.cache/goatty`, no output at startup, nothing slow at every prompt.
+- [ ] `builtin` is only used for real zsh builtins. `mkdir`, `mv`, `rm` and friends are external commands (`command mkdir`); `builtin mkdir` prints `no such builtin`.
 - [ ] The `[permissions]` reasons are accurate and understandable.
 
 ## Settings
