@@ -1,0 +1,104 @@
+schema = 1
+id = "docker"
+name = "Docker"
+version = "1.0.1"
+summary = "Completion and short aliases for the Docker CLI you already have"
+description = """
+Tab completion for docker commands, containers and images, plus short aliases for \
+the commands you type most (dps, dlogs, dcu, …). This plugin doesn't install Docker: \
+it integrates the docker command when it's installed, and stays quiet when it isn't.
+"""
+publisher = "goatty"
+homepage = "https://docs.docker.com/engine/cli/completion/"
+license = "MIT"
+keywords = ["docker", "containers", "compose", "completion"]
+
+[compat]
+goatty = ">=0.0.1"
+
+[requires]
+commands = ["docker"]
+
+[[setting]]
+id = "completion"
+label = "Tab completion"
+help = "Complete docker subcommands, options, container and image names with Tab. Generated once by `docker completion zsh` and cached until docker changes."
+type = "bool"
+default = true
+
+[[setting]]
+id = "aliases"
+label = "Short aliases"
+help = "dps, dpsa, di, dlogs, dex for docker; dc, dcu, dcd, dcl for docker compose."
+type = "bool"
+default = true
+
+[[alias]]
+name = "dps"
+command = "docker"
+args = ["ps"]
+when = "aliases"
+description = "Running containers"
+
+[[alias]]
+name = "dpsa"
+command = "docker"
+args = ["ps", "--all"]
+when = "aliases"
+description = "All containers"
+
+[[alias]]
+name = "di"
+command = "docker"
+args = ["images"]
+when = "aliases"
+description = "Images"
+
+[[alias]]
+name = "dlogs"
+command = "docker"
+args = ["logs", "--follow"]
+when = "aliases"
+description = "Follow a container's logs"
+
+[[alias]]
+name = "dex"
+command = "docker"
+args = ["exec", "--interactive", "--tty"]
+when = "aliases"
+description = "Run a command in a container (dex NAME sh)"
+
+[[alias]]
+name = "dc"
+command = "docker"
+args = ["compose"]
+when = "aliases"
+description = "docker compose"
+
+[[alias]]
+name = "dcu"
+command = "docker"
+args = ["compose", "up", "--detach"]
+when = "aliases"
+description = "Start the compose project in the background"
+
+[[alias]]
+name = "dcd"
+command = "docker"
+args = ["compose", "down"]
+when = "aliases"
+description = "Stop the compose project"
+
+[[alias]]
+name = "dcl"
+command = "docker"
+args = ["compose", "logs", "--follow"]
+when = "aliases"
+description = "Follow the compose project's logs"
+
+[zsh]
+init = "zsh/completion.zsh"
+when = "completion"
+
+[permissions]
+shell-code = "loads docker's own zsh completion (from `docker completion zsh`, cached in ~/.cache/goatty) so Tab completes docker commands."
