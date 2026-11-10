@@ -1,8 +1,8 @@
 {
   "format": 1,
   "registry": "official",
-  "sequence": 1,
-  "generated": 1794138116,
+  "sequence": 2,
+  "generated": 1794340299,
   "plugins": {
     "bat": {
       "name": "bat",
@@ -55,6 +55,19 @@
           "files": {
             "plugin.toml": "9d01dbe71b39714554f5ca4871900f26a8072ec9fce87bbccc140aaff31e415e",
             "zsh/completion.zsh": "aaa9a930a23aa5ecc8abe705ce6a488c36427bc1de8ea38bde874a86cdadf50b"
+          },
+          "permissions": [
+            "shell-code",
+            "aliases"
+          ],
+          "targets": [],
+          "goatty": ">=0.0.1",
+          "yanked": false
+        },
+        "1.0.1": {
+          "files": {
+            "plugin.toml": "c4a48b79c09daef87b9eecb8e459ad9457a5655f724eb2aec7f119a4772413b2",
+            "zsh/completion.zsh": "e333d81df81661445bafb0d35092acd659325f32dddf6be306d2f3bc43d9db1a"
           },
           "permissions": [
             "shell-code",
