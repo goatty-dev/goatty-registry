@@ -10,6 +10,7 @@ A plugin is a reviewed, declarative `plugin.toml`: which program to download (pi
 | [zoxide](plugins/zoxide) | Jump to directories you use often (`z proj`) | zoxide 0.10.0 | `zoxide init zsh` |
 | [bat](plugins/bat) | `cat` with syntax highlighting, line numbers, git changes | bat 0.26.1 | – |
 | [docker](plugins/docker) | Tab completion and short aliases for your Docker CLI | – (uses yours) | cached `docker completion zsh` |
+| [atuin](plugins/atuin) | Shell history in a database: full-screen search on Ctrl+R, optional sync between machines | Atuin 18.24.2 | `atuin init zsh` |
 
 ## Layout
 
