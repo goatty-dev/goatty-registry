@@ -1,0 +1,77 @@
+schema = 1
+id = "atuin"
+name = "Atuin"
+version = "1.0.0"
+summary = "Shell history in a database: search it full-screen on Ctrl+R, sync it between machines if you like"
+description = """
+Atuin records every command with its directory, exit status and duration, and \
+opens a full-screen search on Ctrl+R that filters by this directory, this \
+session, this host or everywhere. goatty's built-in fzf search (Ctrl+R) is enough \
+for most people; Atuin is for when you want that context or the same history on \
+several machines. Syncing stays off until you run `atuin login`. To bring in the \
+history you already have, run `atuin import zsh` once.
+"""
+publisher = "goatty"
+homepage = "https://atuin.sh"
+license = "MIT"
+keywords = ["history", "search", "ctrl-r", "sync", "database"]
+
+[compat]
+goatty = ">=0.0.1"
+os = ["linux"]
+
+[[package]]
+id = "atuin"
+version = "18.24.2"
+bin = ["atuin"]
+
+[[package.asset]]
+target = "x86_64-linux"
+url = "https://github.com/atuinsh/atuin/releases/download/v18.24.2/atuin-x86_64-unknown-linux-musl.tar.gz"
+sha256 = "311cd1ba4b8be27de7071dbcae1c95ff4c2b38aeec82d557707b6b832bfceddf"
+size = 20351592
+root = "atuin-x86_64-unknown-linux-musl"
+
+[[package.asset]]
+target = "aarch64-linux"
+url = "https://github.com/atuinsh/atuin/releases/download/v18.24.2/atuin-aarch64-unknown-linux-musl.tar.gz"
+sha256 = "9addf06ece26e68e842489cefa33e81860c288da373538986ea58c23eccb4f14"
+size = 19129327
+root = "atuin-aarch64-unknown-linux-musl"
+
+# --- Settings ----------------------------------------------------------------
+
+[[setting]]
+id = "ctrl_r"
+label = "Search on Ctrl+R"
+help = "Off: Atuin only records your commands, and Ctrl+R stays goatty's fzf search. Run `atuin search -i` to search Atuin's history then."
+type = "bool"
+default = true
+
+[[setting]]
+id = "up_arrow"
+label = "Search on the Up arrow too"
+help = "Off: Up steps through the history matching what you typed, as in plain goatty."
+type = "bool"
+default = false
+
+[[setting]]
+id = "ai"
+label = "Atuin AI on ?"
+help = "A ? on an empty command line asks Atuin AI for a command in plain words. Your question goes to Atuin's servers, and it needs an Atuin account."
+type = "bool"
+default = false
+advanced = true
+
+# --- Shell code: Atuin's own init script -------------------------------------
+
+[zsh]
+init = "zsh/init.zsh"
+load = "line-editor"
+# goatty's fzf binds Ctrl+R as well: load after it, so Ctrl+R is Atuin's.
+after = ["fzf", "fzf-tab"]
+
+[permissions]
+binaries = "Atuin is a program: goatty downloads its official release from GitHub (atuinsh/atuin) and checks it against the pinned checksum."
+shell-code = "Runs `atuin init zsh`, which records each command in Atuin's database and binds Ctrl+R (and Up, and ? for Atuin AI, when those are on). Nothing else."
+network = "Only if you set up Atuin's sync yourself (`atuin login`): then it uploads your end-to-end encrypted history to the sync server. With Atuin AI turned on, your questions go to Atuin's servers."
