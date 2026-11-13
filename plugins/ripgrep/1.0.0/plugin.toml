@@ -1,0 +1,44 @@
+schema = 1
+id = "ripgrep"
+name = "ripgrep"
+version = "1.0.0"
+summary = "Fast recursive text search that respects ignore files"
+description = """
+ripgrep searches text recursively with regular expressions. It skips ignored files by default, so it is a fast alternative for code searches while keeping `grep` available for scripts and other workflows.
+"""
+publisher = "goatty"
+homepage = "https://github.com/BurntSushi/ripgrep"
+license = "Unlicense OR MIT"
+keywords = ["search", "text", "regex", "code"]
+
+[compat]
+goatty = ">=0.0.1"
+os = ["linux"]
+
+[[package]]
+id = "ripgrep"
+version = "15.2.0"
+bin = ["rg"]
+
+[[package.asset]]
+target = "x86_64-linux"
+url = "https://github.com/BurntSushi/ripgrep/releases/download/15.2.0/ripgrep-15.2.0-x86_64-unknown-linux-musl.tar.gz"
+sha256 = "33e15bcf1624b25cdd2a55813a47a2f95dbe126268203e76aa6a585d1e7b149c"
+size = 2265718
+root = "ripgrep-15.2.0-x86_64-unknown-linux-musl"
+
+[[package.asset]]
+target = "aarch64-linux"
+url = "https://github.com/BurntSushi/ripgrep/releases/download/15.2.0/ripgrep-15.2.0-aarch64-unknown-linux-musl.tar.gz"
+sha256 = "800b1e7206afe799dfb5a6901f23147cfaabe0e52210538100f61e86e1740915"
+size = 1982561
+root = "ripgrep-15.2.0-aarch64-unknown-linux-musl"
+
+[[alias]]
+name = "rgi"
+command = "rg"
+args = ["--ignore-case", "{args}"]
+description = "Search text without distinguishing letter case"
+
+[permissions]
+binaries = "ripgrep is a program: goatty downloads official BurntSushi/ripgrep releases and checks each archive against its pinned SHA-256 digest."

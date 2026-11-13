@@ -1,0 +1,38 @@
+schema = 1
+id = "btop"
+name = "btop"
+version = "1.0.0"
+summary = "Resource monitor with detailed CPU, memory, disk, and network views"
+description = """
+btop is an interactive resource monitor with graphs and a mouse-friendly interface. It complements process viewers such as htop and leaves system commands like `ps` unchanged.
+"""
+publisher = "goatty"
+homepage = "https://github.com/aristocratos/btop"
+license = "Apache-2.0"
+keywords = ["monitor", "cpu", "memory", "disk", "network"]
+
+[compat]
+goatty = ">=0.0.1"
+os = ["linux"]
+
+[[package]]
+id = "btop"
+version = "1.4.8"
+bin = ["btop"]
+
+[[package.asset]]
+target = "x86_64-linux"
+url = "https://github.com/aristocratos/btop/releases/download/v1.4.8/btop-x86_64-unknown-linux-musl.tar.gz"
+sha256 = "af589cf82cc9ea9c29ce050b9239a13bef2d1492256d476156e1054a42ce89ad"
+size = 1068255
+root = "btop/bin"
+
+[[package.asset]]
+target = "aarch64-linux"
+url = "https://github.com/aristocratos/btop/releases/download/v1.4.8/btop-aarch64-unknown-linux-musl.tar.gz"
+sha256 = "95328e26ab08f42033af26628e2d169206a5a420f35669ce17459ef85114c14c"
+size = 973166
+root = "btop/bin"
+
+[permissions]
+binaries = "btop is a program: goatty downloads official aristocratos/btop releases and checks each archive against its pinned SHA-256 digest."

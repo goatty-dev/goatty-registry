@@ -1,9 +1,42 @@
 {
   "format": 1,
   "registry": "official",
-  "sequence": 2,
-  "generated": 1794340299,
+  "sequence": 4,
+  "generated": 1794608760,
   "plugins": {
+    "atuin": {
+      "name": "Atuin",
+      "summary": "Shell history in a database: search it full-screen on Ctrl+R, sync it between machines if you like",
+      "publisher": "goatty",
+      "category": "environment",
+      "keywords": [
+        "history",
+        "search",
+        "ctrl-r",
+        "sync",
+        "database"
+      ],
+      "homepage": "https://atuin.sh",
+      "versions": {
+        "1.0.0": {
+          "files": {
+            "plugin.toml": "bc6594f60a10d426a346bd0832cf788ba18355c780465fa99186ba208633817d",
+            "zsh/init.zsh": "5df0da1e1666a793486155e537c328f1985a38dc68edf1567c95d9d49dd03c64"
+          },
+          "permissions": [
+            "binaries",
+            "shell-code",
+            "network"
+          ],
+          "targets": [
+            "aarch64-linux",
+            "x86_64-linux"
+          ],
+          "goatty": ">=0.0.1",
+          "yanked": false
+        }
+      }
+    },
     "bat": {
       "name": "bat",
       "summary": "cat with wings: syntax highlighting, line numbers and git changes",
@@ -28,6 +61,66 @@
             "aliases",
             "env",
             "config-files"
+          ],
+          "targets": [
+            "aarch64-linux",
+            "x86_64-linux"
+          ],
+          "goatty": ">=0.0.1",
+          "yanked": false
+        }
+      }
+    },
+    "btop": {
+      "name": "btop",
+      "summary": "Resource monitor with detailed CPU, memory, disk, and network views",
+      "publisher": "goatty",
+      "category": "environment",
+      "keywords": [
+        "monitor",
+        "cpu",
+        "memory",
+        "disk",
+        "network"
+      ],
+      "homepage": "https://github.com/aristocratos/btop",
+      "versions": {
+        "1.0.0": {
+          "files": {
+            "plugin.toml": "5ae5249534a7e136f41dcf79e235c747ba0b8cfa5f4f994b29253d75f181a297"
+          },
+          "permissions": [
+            "binaries"
+          ],
+          "targets": [
+            "aarch64-linux",
+            "x86_64-linux"
+          ],
+          "goatty": ">=0.0.1",
+          "yanked": false
+        }
+      }
+    },
+    "delta": {
+      "name": "delta",
+      "summary": "Syntax-highlighted diffs for Git and the command line",
+      "publisher": "goatty",
+      "category": "environment",
+      "keywords": [
+        "git",
+        "diff",
+        "pager",
+        "syntax-highlighting"
+      ],
+      "homepage": "https://github.com/dandavison/delta",
+      "versions": {
+        "1.0.0": {
+          "files": {
+            "plugin.toml": "8d3b6b3af43df080dafaee81887b7654c5b32c9f5911a3347dd83adb29dc9435"
+          },
+          "permissions": [
+            "binaries",
+            "env"
           ],
           "targets": [
             "aarch64-linux",
@@ -79,6 +172,36 @@
         }
       }
     },
+    "dust": {
+      "name": "dust",
+      "summary": "Visual disk usage breakdown by directory",
+      "publisher": "goatty",
+      "category": "environment",
+      "keywords": [
+        "disk",
+        "usage",
+        "du",
+        "directory",
+        "storage"
+      ],
+      "homepage": "https://github.com/bootandy/dust",
+      "versions": {
+        "1.0.0": {
+          "files": {
+            "plugin.toml": "1a740002de1ae1159daac89516e7d529c89a0ecaf5fa69c43ab5eed2299747f5"
+          },
+          "permissions": [
+            "binaries"
+          ],
+          "targets": [
+            "aarch64-linux",
+            "x86_64-linux"
+          ],
+          "goatty": ">=0.0.1",
+          "yanked": false
+        }
+      }
+    },
     "eza": {
       "name": "eza",
       "summary": "A modern ls: colors, file icons, git status and a tree view",
@@ -100,6 +223,248 @@
           },
           "permissions": [
             "binaries",
+            "aliases"
+          ],
+          "targets": [
+            "aarch64-linux",
+            "x86_64-linux"
+          ],
+          "goatty": ">=0.0.1",
+          "yanked": false
+        }
+      }
+    },
+    "fastfetch": {
+      "name": "Fastfetch",
+      "summary": "Show operating system, hardware, and terminal details",
+      "publisher": "goatty",
+      "category": "environment",
+      "keywords": [
+        "system",
+        "hardware",
+        "information",
+        "neofetch"
+      ],
+      "homepage": "https://github.com/fastfetch-cli/fastfetch",
+      "versions": {
+        "1.0.0": {
+          "files": {
+            "plugin.toml": "675a08ad78d794285a75433ccaf6efd3f07594dc75644eaf9233380e0174dd85"
+          },
+          "permissions": [
+            "binaries",
+            "aliases"
+          ],
+          "targets": [
+            "aarch64-linux",
+            "x86_64-linux"
+          ],
+          "goatty": ">=0.0.1",
+          "yanked": false
+        }
+      }
+    },
+    "fd": {
+      "name": "fd",
+      "summary": "Fast, friendly file and directory search",
+      "publisher": "goatty",
+      "category": "environment",
+      "keywords": [
+        "find",
+        "files",
+        "search",
+        "directories"
+      ],
+      "homepage": "https://github.com/sharkdp/fd",
+      "versions": {
+        "1.0.0": {
+          "files": {
+            "plugin.toml": "b4f59fccf04069bea9d4cc87b97b3d9fe6bb23e7ef95c1920df85a93ef4809ff"
+          },
+          "permissions": [
+            "binaries",
+            "aliases"
+          ],
+          "targets": [
+            "aarch64-linux",
+            "x86_64-linux"
+          ],
+          "goatty": ">=0.0.1",
+          "yanked": false
+        }
+      }
+    },
+    "htop": {
+      "name": "htop",
+      "summary": "Shortcut for the interactive process viewer htop",
+      "publisher": "goatty",
+      "category": "environment",
+      "keywords": [
+        "processes",
+        "monitor",
+        "system",
+        "top"
+      ],
+      "homepage": "https://htop.dev/",
+      "versions": {
+        "1.0.0": {
+          "files": {
+            "plugin.toml": "255176da5a32d71e57d34ba40531e33d81a1239083fefe6e0015a7eca4ae723a"
+          },
+          "permissions": [
+            "aliases"
+          ],
+          "targets": [],
+          "goatty": ">=0.0.1",
+          "yanked": false
+        }
+      }
+    },
+    "lazygit": {
+      "name": "lazygit",
+      "summary": "Terminal interface for everyday Git work",
+      "publisher": "goatty",
+      "category": "environment",
+      "keywords": [
+        "git",
+        "repository",
+        "terminal-ui",
+        "commit"
+      ],
+      "homepage": "https://github.com/jesseduffield/lazygit",
+      "versions": {
+        "1.0.0": {
+          "files": {
+            "plugin.toml": "a6e7e86c4e94c964292c2ac40d5fda62295eab908265ff532cd9b13c5e39bd0a"
+          },
+          "permissions": [
+            "binaries",
+            "aliases"
+          ],
+          "targets": [
+            "aarch64-linux",
+            "x86_64-linux"
+          ],
+          "goatty": ">=0.0.1",
+          "yanked": false
+        }
+      }
+    },
+    "micro": {
+      "name": "micro",
+      "summary": "Friendly terminal text editor with standard shortcuts (Ctrl+S, Ctrl+C, Ctrl+V) and mouse support",
+      "publisher": "goatty",
+      "category": "environment",
+      "keywords": [
+        "editor",
+        "text",
+        "nano",
+        "vim",
+        "sudoedit",
+        "files"
+      ],
+      "homepage": "https://micro-editor.github.io",
+      "versions": {
+        "1.0.0": {
+          "files": {
+            "plugin.toml": "608c3ea11327a8dd8209e6601c7ea0bc57deb9411b9783e5be4ff01361ffc908",
+            "zsh/init.zsh": "b9f5dab56f0dda8de4cdbd4f9389fc63d795c66715829dd7274fc71217bbf682"
+          },
+          "permissions": [
+            "binaries",
+            "shell-code",
+            "aliases",
+            "env"
+          ],
+          "targets": [
+            "aarch64-linux",
+            "x86_64-linux"
+          ],
+          "goatty": ">=0.0.1",
+          "yanked": false
+        }
+      }
+    },
+    "procs": {
+      "name": "procs",
+      "summary": "Modern process viewer with readable columns and search",
+      "publisher": "goatty",
+      "category": "environment",
+      "keywords": [
+        "processes",
+        "ps",
+        "monitor",
+        "search"
+      ],
+      "homepage": "https://github.com/dalance/procs",
+      "versions": {
+        "1.0.0": {
+          "files": {
+            "plugin.toml": "df0aa2b031c0a3f062053514ba91f624c725265eec0a2d62533d4e3c6c940aac"
+          },
+          "permissions": [
+            "aliases"
+          ],
+          "targets": [],
+          "goatty": ">=0.0.1",
+          "yanked": false
+        }
+      }
+    },
+    "ripgrep": {
+      "name": "ripgrep",
+      "summary": "Fast recursive text search that respects ignore files",
+      "publisher": "goatty",
+      "category": "environment",
+      "keywords": [
+        "search",
+        "text",
+        "regex",
+        "code"
+      ],
+      "homepage": "https://github.com/BurntSushi/ripgrep",
+      "versions": {
+        "1.0.0": {
+          "files": {
+            "plugin.toml": "ed563024c967dd0c24b095add6fdb3a2bf37ef0246016636b02ace2961dbc369"
+          },
+          "permissions": [
+            "binaries",
+            "aliases"
+          ],
+          "targets": [
+            "aarch64-linux",
+            "x86_64-linux"
+          ],
+          "goatty": ">=0.0.1",
+          "yanked": false
+        }
+      }
+    },
+    "tldr": {
+      "name": "tldr",
+      "summary": "Short, example-driven command help (`tldr tar`), with Alt+T to prefix the current command",
+      "publisher": "goatty",
+      "category": "environment",
+      "keywords": [
+        "tldr",
+        "tealdeer",
+        "man",
+        "help",
+        "cheatsheet",
+        "examples"
+      ],
+      "homepage": "https://github.com/tealdeer-rs/tealdeer",
+      "versions": {
+        "1.0.0": {
+          "files": {
+            "plugin.toml": "fcd561cdd6778f9b1e672ce4163d7e1bf217c8511519fce14bc64bc876e542cf",
+            "zsh/init.zsh": "e3d8e72f5ba9700589b01cbb0a68adca06a21cd0bfff47ba379bca7fd7978ce3"
+          },
+          "permissions": [
+            "binaries",
+            "shell-code",
+            "network",
             "aliases"
           ],
           "targets": [

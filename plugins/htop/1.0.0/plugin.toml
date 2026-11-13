@@ -1,0 +1,24 @@
+schema = 1
+id = "htop"
+name = "htop"
+version = "1.0.0"
+summary = "Shortcut for the interactive process viewer htop"
+description = """
+htop is an interactive process viewer that shows CPU and memory use and lets you inspect running processes. Goatty's plugin adds the short `ht` command and uses an htop executable already installed on your system.
+"""
+publisher = "goatty"
+homepage = "https://htop.dev/"
+license = "GPL-2.0-or-later"
+keywords = ["processes", "monitor", "system", "top"]
+
+[compat]
+goatty = ">=0.0.1"
+os = ["linux"]
+
+[requires]
+commands = ["htop"]
+
+[[alias]]
+name = "ht"
+command = "htop"
+description = "Open the htop process viewer"

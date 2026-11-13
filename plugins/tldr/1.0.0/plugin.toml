@@ -1,0 +1,119 @@
+schema = 1
+id = "tldr"
+name = "tldr"
+version = "1.0.0"
+summary = "Short, example-driven command help (`tldr tar`), with Alt+T to prefix the current command"
+description = """
+tldr (powered by tealdeer) shows concise, practical examples for common command-line \
+tools instead of long manual pages. Press Alt+T while typing a command to add `tldr ` \
+in front of the line without losing your cursor position, or optionally alias `man` to `tldr`.
+"""
+publisher = "goatty"
+homepage = "https://github.com/tealdeer-rs/tealdeer"
+license = "MIT OR Apache-2.0"
+keywords = ["tldr", "tealdeer", "man", "help", "cheatsheet", "examples"]
+
+[compat]
+goatty = ">=0.0.1"
+os = ["linux"]
+
+[[package]]
+id = "tldr"
+version = "1.9.1"
+bin = ["tldr"]
+
+[[package.asset]]
+target = "x86_64-linux"
+url = "https://github.com/tealdeer-rs/tealdeer/releases/download/v1.9.1/tealdeer-linux-x86_64-musl"
+sha256 = "5a9c3f0691b9cf375ee5c99de802885f3d50498cf686a539e2ddda028eb6b4f6"
+size = 3658688
+format = "binary"
+
+[[package.asset]]
+target = "aarch64-linux"
+url = "https://github.com/tealdeer-rs/tealdeer/releases/download/v1.9.1/tealdeer-linux-aarch64-musl"
+sha256 = "247746dd2d18f0135da79b849bb6b49e45262e2fe4318adfc3082dc6ce3ee968"
+size = 3019104
+format = "binary"
+
+# --- Settings ----------------------------------------------------------------
+
+[[setting]]
+id = "shortcut"
+label = "Alt+T shortcut"
+help = "Press Alt+T while editing a command to insert `tldr ` in front of the current line (or remove it if it's already there) and return the cursor to where it was."
+type = "bool"
+default = true
+group = "Commands"
+
+[[setting]]
+id = "replace_man"
+label = "Use tldr for man"
+help = "Typing `man` runs tldr instead of opening the system manual. Off: `man` stays your system's manual viewer; use `command man` anytime to bypass the alias."
+type = "bool"
+default = false
+group = "Commands"
+
+[[setting]]
+id = "compact"
+label = "Compact layout"
+help = "Omit blank lines between examples so more of a page fits on the screen at once."
+type = "bool"
+default = false
+arg = "--override-config=display.compact=true"
+group = "Look"
+
+[[setting]]
+id = "options_style"
+label = "Option style"
+help = "Whether examples show long option names (`--extract`) or short ones (`-x`) when a page offers both."
+type = "choice"
+default = "long"
+group = "Look"
+choices = [
+  { value = "long", label = "Long (--extract)", arg = "" },
+  { value = "short", label = "Short (-x)", arg = "--short-options" },
+]
+
+[[setting]]
+id = "pager"
+label = "Open in a pager"
+help = "Display pages in a pager (`less`) so you can scroll and search through longer pages."
+type = "bool"
+default = false
+arg = "--override-config=display.use_pager=true"
+group = "Behavior"
+
+[[setting]]
+id = "auto_update"
+label = "Download and update pages automatically"
+help = "Download the tldr page cache on first use and refresh it automatically when it's older than 30 days. Off: update manually with `tldr --update`."
+type = "bool"
+default = true
+arg = "--override-config=updates.auto_update=true"
+group = "Behavior"
+
+# --- Aliases & shell integration ---------------------------------------------
+
+[[alias]]
+name = "tldr"
+command = "tldr"
+args = ["{args}"]
+description = "Run tldr with your chosen settings"
+
+[[alias]]
+name = "man"
+command = "tldr"
+args = ["{args}"]
+when = "replace_man"
+description = "man runs tldr instead of the system manual"
+
+[zsh]
+init = "zsh/init.zsh"
+when = "shortcut"
+load = "line-editor"
+
+[permissions]
+binaries = "tldr (tealdeer) is a program: goatty downloads its official release from GitHub (tealdeer-rs/tealdeer) and checks it against the pinned SHA-256 digest."
+shell-code = "Defines the Alt+T line-editor widget (`_goatty_tldr_widget`) that prefixes or unprefixes the current command line with `tldr ` while preserving your cursor position."
+network = "tldr downloads and updates its local cache of command pages from the tldr-pages archive when `tldr --update` runs or automatic updates are enabled."
