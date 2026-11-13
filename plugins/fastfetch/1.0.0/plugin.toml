@@ -1,0 +1,45 @@
+schema = 1
+id = "fastfetch"
+name = "Fastfetch"
+version = "1.0.0"
+summary = "Show operating system, hardware, and terminal details"
+description = """
+Fastfetch prints a customizable summary of your system, including the operating system, CPU, memory, shell, and terminal. It is a maintained system information display; `sysinfo` is a short alias while `fastfetch` remains available.
+"""
+publisher = "goatty"
+homepage = "https://github.com/fastfetch-cli/fastfetch"
+license = "MIT"
+keywords = ["system", "hardware", "information", "neofetch"]
+
+[compat]
+goatty = ">=0.0.1"
+os = ["linux"]
+
+# Upstream publishes no musl build. The "polyfilled" builds run on older glibc
+# versions (they bundle compatibility shims), and keep the executable in usr/bin.
+[[package]]
+id = "fastfetch"
+version = "2.70.0"
+bin = ["fastfetch"]
+
+[[package.asset]]
+target = "x86_64-linux"
+url = "https://github.com/fastfetch-cli/fastfetch/releases/download/2.70.0/fastfetch-linux-amd64-polyfilled.tar.gz"
+sha256 = "4c07f37971ff9b6627519c18c2a471bb48253e55096cdd7d0c24b751ecfdeca7"
+size = 1497750
+root = "fastfetch-linux-amd64-polyfilled/usr/bin"
+
+[[package.asset]]
+target = "aarch64-linux"
+url = "https://github.com/fastfetch-cli/fastfetch/releases/download/2.70.0/fastfetch-linux-aarch64-polyfilled.tar.gz"
+sha256 = "6fc72549d097b3b1e2b35ef4677265da4cc23f07f253b5144d1662214cc14f37"
+size = 1529603
+root = "fastfetch-linux-aarch64-polyfilled/usr/bin"
+
+[[alias]]
+name = "sysinfo"
+command = "fastfetch"
+description = "Show a summary of system details"
+
+[permissions]
+binaries = "Fastfetch is a program: goatty downloads official fastfetch-cli/fastfetch releases and checks each archive against its pinned SHA-256 digest."

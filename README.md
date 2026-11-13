@@ -9,6 +9,17 @@ A plugin is a reviewed, declarative `plugin.toml`: which program to download (pi
 | [eza](plugins/eza) | A modern `ls`: colors, icons, git status, tree view | eza 0.23.5 | – |
 | [zoxide](plugins/zoxide) | Jump to directories you use often (`z proj`) | zoxide 0.10.0 | `zoxide init zsh` |
 | [bat](plugins/bat) | `cat` with syntax highlighting, line numbers, git changes | bat 0.26.1 | – |
+| [ripgrep](plugins/ripgrep) | Fast recursive text search (`rg`); adds `rgi` for case-insensitive searches | ripgrep 15.2.0 | – |
+| [fd](plugins/fd) | Fast file and directory search, with hidden-file and symlink settings | fd 10.5.0 | – |
+| [lazygit](plugins/lazygit) | Keyboard-driven Git interface (`lg`) | lazygit 0.66.2 | – |
+| [delta](plugins/delta) | Syntax-highlighted Git diffs; optional Git pager setting | delta 0.20.1 | – |
+| [htop](plugins/htop) | Adds `ht` shortcut for an existing htop installation | – (uses yours) | – |
+| [btop](plugins/btop) | Interactive CPU, memory, disk, and network monitor | btop 1.4.8 | – |
+| [dust](plugins/dust) | Visual disk usage by directory | dust 1.2.6 | – |
+| [procs](plugins/procs) | Adds `psx` for your installed procs process viewer; leaves `ps` unchanged | – (uses yours) | – |
+| [Fastfetch](plugins/fastfetch) | System details summary (`sysinfo`) | Fastfetch 2.70.0 | – |
+| [tldr](plugins/tldr) | Short command examples (`tldr`), `Alt+T` prefix shortcut, optional `man` alias | tealdeer 1.9.1 | `Alt+T` ZLE widget |
+| [micro](plugins/micro) | Friendly terminal editor with goatty theme colors, optional `nano` alias, `$EDITOR`, and `sudoedit` (`se`) | micro 2.0.15 | clipboard check + optional `se` |
 | [docker](plugins/docker) | Tab completion and short aliases for your Docker CLI | – (uses yours) | cached `docker completion zsh` |
 | [atuin](plugins/atuin) | Shell history in a database: full-screen search on Ctrl+R, optional sync between machines | Atuin 18.24.2 | `atuin init zsh` |
 

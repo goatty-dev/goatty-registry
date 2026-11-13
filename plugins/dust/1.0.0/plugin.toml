@@ -1,0 +1,36 @@
+schema = 1
+id = "dust"
+name = "dust"
+version = "1.0.0"
+summary = "Visual disk usage breakdown by directory"
+description = """
+dust shows which folders use the most disk space, with a readable tree view. It is a focused alternative to `du` and does not change the behavior of `du`.
+"""
+publisher = "goatty"
+homepage = "https://github.com/bootandy/dust"
+license = "MIT OR Apache-2.0"
+keywords = ["disk", "usage", "du", "directory", "storage"]
+
+[compat]
+goatty = ">=0.0.1"
+os = ["linux"]
+
+[[package]]
+id = "dust"
+version = "1.2.6"
+bin = ["dust"]
+
+[[package.asset]]
+target = "x86_64-linux"
+url = "https://github.com/bootandy/dust/releases/download/v1.2.6/dust-v1.2.6-x86_64-unknown-linux-musl.tar.gz"
+sha256 = "cbf2cb5c9d6227e46fc4b29c03dc43b8632020dfc5cf269d263d6e29c399e044"
+size = 1256184
+
+[[package.asset]]
+target = "aarch64-linux"
+url = "https://github.com/bootandy/dust/releases/download/v1.2.6/dust-v1.2.6-aarch64-unknown-linux-musl.tar.gz"
+sha256 = "a51cf42a4654864837cc116eaca914271d7a09a9c2a60de90ecc2187b8d855a7"
+size = 1132997
+
+[permissions]
+binaries = "dust is a program: goatty downloads official bootandy/dust releases and checks each archive against its pinned SHA-256 digest."

@@ -1,0 +1,214 @@
+schema = 1
+id = "micro"
+name = "micro"
+version = "1.0.0"
+summary = "Friendly terminal text editor with standard shortcuts (Ctrl+S, Ctrl+C, Ctrl+V) and mouse support"
+description = """
+micro is a terminal text editor that works the way you expect: Ctrl+S saves, Ctrl+Q quits, \
+Ctrl+C and Ctrl+V copy and paste, Ctrl+Z undoes, and clicking or scrolling with the mouse \
+just works. By default it uses your goatty terminal colors (`simple` theme), and can optionally \
+be set as your default `$EDITOR`, replace `nano`, or open root-owned files with `sudoedit`.
+"""
+publisher = "goatty"
+homepage = "https://micro-editor.github.io"
+license = "MIT"
+keywords = ["editor", "text", "nano", "vim", "sudoedit", "files"]
+
+[compat]
+goatty = ">=0.0.1"
+os = ["linux"]
+
+# x86_64 uses micro's static build; aarch64 uses upstream's standard linux-arm64 build.
+[[package]]
+id = "micro"
+version = "2.0.15"
+bin = ["micro"]
+
+[[package.asset]]
+target = "x86_64-linux"
+url = "https://github.com/micro-editor/micro/releases/download/v2.0.15/micro-2.0.15-linux64-static.tar.gz"
+sha256 = "267d238eac1e26ed053d13d4d48bd421b87f9eb538b604f0b2f74a85598b6cc2"
+size = 5087804
+root = "micro-2.0.15"
+
+[[package.asset]]
+target = "aarch64-linux"
+url = "https://github.com/micro-editor/micro/releases/download/v2.0.15/micro-2.0.15-linux-arm64.tar.gz"
+sha256 = "5ca127857bf5500be3879f1a70b27556e737a49da04a1be5334de9e8e8781ad9"
+size = 4680364
+root = "micro-2.0.15"
+
+# --- Settings ----------------------------------------------------------------
+
+[[setting]]
+id = "colorscheme"
+label = "Color theme"
+help = "The colors for syntax highlighting and the status bar. “Your goatty theme” (`simple`) uses the terminal's 16 palette colors and transparent background so micro matches your goatty theme."
+type = "choice"
+default = "simple"
+arg = "-colorscheme={value}"
+group = "Look"
+choices = [
+  { value = "simple", label = "Your goatty theme", help = "Uses the terminal's 16 colors and background so micro matches the theme you picked in goatty." },
+  { value = "cmc-16", label = "Your goatty theme (bold)", help = "Another 16-color theme that follows your goatty palette with bold syntax highlights." },
+  { value = "default", label = "Monokai (micro default)", arg = "", help = "micro's built-in 256-color Monokai theme." },
+  { value = "dracula-tc", label = "Dracula" },
+  { value = "gruvbox-tc", label = "Gruvbox" },
+  { value = "one-dark", label = "One Dark" },
+  { value = "solarized-tc", label = "Solarized" },
+]
+
+[[setting]]
+id = "keymenu"
+label = "Show shortcut bar at the bottom"
+help = "Display a nano-style bar of common keyboard shortcuts (Save, Quit, Find, …) at the bottom of the screen. You can also toggle it anytime inside micro with Alt+G."
+type = "bool"
+default = true
+arg = "-keymenu=true"
+group = "Look"
+
+[[setting]]
+id = "scrollbar"
+label = "Show scrollbar"
+help = "Display a scrollbar on the right edge of the editor window."
+type = "bool"
+default = true
+arg = "-scrollbar=true"
+group = "Look"
+
+[[setting]]
+id = "default_editor"
+label = "Set as default terminal editor ($EDITOR)"
+help = "Export `EDITOR=micro` and `VISUAL=micro` so tools like `git commit`, `crontab -e`, and `yazi` open files in micro."
+type = "bool"
+default = false
+group = "Commands"
+
+[[setting]]
+id = "replace_nano"
+label = "Use micro for nano"
+help = "Typing `nano` opens micro instead. Off: `nano` stays your system's nano editor; use `command nano` anytime to bypass the alias."
+type = "bool"
+default = false
+group = "Commands"
+
+[[setting]]
+id = "sudoedit"
+label = "Use micro for sudoedit (and add se shortcut)"
+help = "Sets `SUDO_EDITOR=micro` and adds `se` as a short command for `sudoedit`: safely edit root-owned files as your normal user (with your micro theme and settings) and only use sudo to write the final file back."
+type = "bool"
+default = false
+group = "Commands"
+
+[[setting]]
+id = "autosu"
+label = "Save read-only files with sudo"
+help = "When you edit a root-owned file directly in micro and press Ctrl+S, automatically retry saving with `sudo` instead of failing with permission denied."
+type = "bool"
+default = false
+arg = "-autosu=true"
+group = "Behavior"
+
+[[setting]]
+id = "softwrap"
+label = "Wrap long lines"
+help = "Wrap lines that are wider than the terminal window instead of scrolling horizontally."
+type = "bool"
+default = false
+arg = "-softwrap=true"
+group = "Behavior"
+
+[[setting]]
+id = "savecursor"
+label = "Remember cursor position"
+help = "Reopen files at the line where you left off last time."
+type = "bool"
+default = true
+arg = "-savecursor=true"
+group = "Behavior"
+
+[[setting]]
+id = "clipboard"
+label = "Clipboard mode"
+help = "How Ctrl+C and Ctrl+V access your system clipboard. “System tool” uses wl-clipboard on Wayland or xclip/xsel on X11 so both copy and paste work with other apps (and offers to install the package if missing). “Terminal (OSC 52)” copies through goatty without extra packages (useful over SSH, though terminals block OSC 52 paste for security)."
+type = "choice"
+default = "external"
+arg = "-clipboard={value}"
+group = "Behavior"
+advanced = true
+choices = [
+  { value = "external", label = "System tool (wl-clipboard / xclip)", arg = "-clipboard=external", help = "Uses wl-clipboard on Wayland or xclip/xsel on X11 so both Ctrl+C and Ctrl+V share your desktop clipboard." },
+  { value = "terminal", label = "Terminal (OSC 52)", help = "Copies through the terminal escape sequence (works over SSH without extra packages; paste from outside uses Ctrl+Shift+V)." },
+  { value = "internal", label = "Internal only", help = "Keeps copy and paste inside micro only." },
+]
+
+[[setting]]
+id = "tabsize"
+label = "Tab width"
+help = "How many columns a tab character takes."
+type = "integer"
+default = 4
+min = 1
+max = 16
+arg = "-tabsize={value}"
+unit = "spaces"
+group = "Behavior"
+advanced = true
+
+[[setting]]
+id = "tabstospaces"
+label = "Indent with spaces"
+help = "Insert spaces instead of a tab character when you press Tab."
+type = "bool"
+default = false
+arg = "-tabstospaces=true"
+group = "Behavior"
+advanced = true
+
+[[setting]]
+id = "rmtrailingws"
+label = "Trim trailing whitespace on save"
+help = "Automatically remove leftover spaces at the ends of lines when saving a file."
+type = "bool"
+default = false
+arg = "-rmtrailingws=true"
+group = "Behavior"
+advanced = true
+
+# --- Environment & Aliases ---------------------------------------------------
+
+[[env]]
+name = "EDITOR"
+value = "micro"
+when = "default_editor"
+
+[[env]]
+name = "VISUAL"
+value = "micro"
+when = "default_editor"
+
+[[env]]
+name = "SUDO_EDITOR"
+value = "micro"
+when = "sudoedit"
+
+[[alias]]
+name = "micro"
+command = "micro"
+args = ["{args}"]
+description = "Run micro with your chosen settings"
+
+[[alias]]
+name = "nano"
+command = "micro"
+args = ["{args}"]
+when = "replace_nano"
+description = "nano opens micro instead"
+
+[zsh]
+init = "zsh/init.zsh"
+
+[permissions]
+binaries = "micro is a program: goatty downloads its official release from GitHub (micro-editor/micro) and checks it against the pinned SHA-256 digest."
+shell-code = "Checks when launching micro if a system clipboard tool (wl-clipboard on Wayland, xclip/xsel on X11) is missing and offers to install it or fall back to terminal clipboard; also defines the `se` shortcut for `sudoedit` when enabled."
+

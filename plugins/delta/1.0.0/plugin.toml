@@ -1,0 +1,52 @@
+schema = 1
+id = "delta"
+name = "delta"
+version = "1.0.0"
+summary = "Syntax-highlighted diffs for Git and the command line"
+description = """
+delta is a pager for Git diffs that adds syntax highlighting and clearer side-by-side comparisons. Enable its Git pager setting to use it for Git output; `less` and other pagers remain available.
+"""
+publisher = "goatty"
+homepage = "https://github.com/dandavison/delta"
+license = "MIT"
+keywords = ["git", "diff", "pager", "syntax-highlighting"]
+
+[compat]
+goatty = ">=0.0.1"
+os = ["linux"]
+
+# x86_64 uses delta's static (musl) build. For aarch64 delta only publishes a
+# glibc build, which needs a current distribution.
+[[package]]
+id = "delta"
+version = "0.20.1"
+bin = ["delta"]
+
+[[package.asset]]
+target = "x86_64-linux"
+url = "https://github.com/dandavison/delta/releases/download/0.20.1/delta-0.20.1-x86_64-unknown-linux-musl.tar.gz"
+sha256 = "69dcb4043f55c29118f408c6efd30115e0a4e0a6709253343b8c8fa814ab4a31"
+size = 3403612
+root = "delta-0.20.1-x86_64-unknown-linux-musl"
+
+[[package.asset]]
+target = "aarch64-linux"
+url = "https://github.com/dandavison/delta/releases/download/0.20.1/delta-0.20.1-aarch64-unknown-linux-gnu.tar.gz"
+sha256 = "da7f4338f593572ff426ae153e0870e2fdc72729416eff551b40cdeb67940db8"
+size = 3158438
+root = "delta-0.20.1-aarch64-unknown-linux-gnu"
+
+[[setting]]
+id = "git_pager"
+label = "Use delta for Git output"
+help = "Set Git's pager to delta in this goatty shell. Turn this off to use Git's configured pager."
+type = "bool"
+default = false
+
+[[env]]
+name = "GIT_PAGER"
+value = "delta"
+when = "git_pager"
+
+[permissions]
+binaries = "delta is a program: goatty downloads the official dandavison/delta release and checks it against its pinned SHA-256 digest."

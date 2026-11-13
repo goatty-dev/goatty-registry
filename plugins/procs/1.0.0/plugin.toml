@@ -1,0 +1,24 @@
+schema = 1
+id = "procs"
+name = "procs"
+version = "1.0.0"
+summary = "Modern process viewer with readable columns and search"
+description = """
+procs displays running processes with readable columns, colors, and convenient filtering. Use `procs` when you want its richer view; the standard `ps` command remains unchanged.
+"""
+publisher = "goatty"
+homepage = "https://github.com/dalance/procs"
+license = "MIT OR Apache-2.0"
+keywords = ["processes", "ps", "monitor", "search"]
+
+[compat]
+goatty = ">=0.0.1"
+os = ["linux"]
+
+[requires]
+commands = ["procs"]
+
+[[alias]]
+name = "psx"
+command = "procs"
+description = "Run procs as an alternative process listing"
