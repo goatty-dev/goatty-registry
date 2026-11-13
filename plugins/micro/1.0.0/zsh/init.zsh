@@ -84,7 +84,7 @@ if [[ ${goatty_settings[clipboard]} == external ]]; then
       fi
 
       if ! _goatty_micro_has_clipboard; then
-        command micro "$@" -clipboard=terminal
+        command micro -clipboard=terminal "$@"
         return
       fi
     fi

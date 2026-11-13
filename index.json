@@ -1,8 +1,8 @@
 {
   "format": 1,
   "registry": "official",
-  "sequence": 3,
-  "generated": 1794607259,
+  "sequence": 4,
+  "generated": 1794608760,
   "plugins": {
     "atuin": {
       "name": "Atuin",
@@ -188,7 +188,7 @@
       "versions": {
         "1.0.0": {
           "files": {
-            "plugin.toml": "2e9dcf1679492e86b32403a3bda3357b2899033ea3ddee301b6349afe4791c7f"
+            "plugin.toml": "1a740002de1ae1159daac89516e7d529c89a0ecaf5fa69c43ab5eed2299747f5"
           },
           "permissions": [
             "binaries"
@@ -368,7 +368,7 @@
         "1.0.0": {
           "files": {
             "plugin.toml": "608c3ea11327a8dd8209e6601c7ea0bc57deb9411b9783e5be4ff01361ffc908",
-            "zsh/init.zsh": "677f318be65bb1281be7243704fc070d1a5a3a6890257826553d786cc54e64e8"
+            "zsh/init.zsh": "b9f5dab56f0dda8de4cdbd4f9389fc63d795c66715829dd7274fc71217bbf682"
           },
           "permissions": [
             "binaries",
