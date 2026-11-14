@@ -9,6 +9,7 @@ Every plugin version is reviewed before it's signed into the index. The signatur
 - [ ] The release is at least two weeks old and not a pre-release.
 - [ ] Static (musl) builds where upstream offers them; anything else is noted in a comment.
 - [ ] `bin` lists only the tool's own executables; none of them shadows a common system command unless that's the point of the tool.
+- [ ] `completions`, if any, is the tool's own completion generator: run it with an empty `$HOME`; it prints a function starting with `#compdef`, writes no files and needs no network.
 
 ## What it does to the shell
 
