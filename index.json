@@ -1,8 +1,8 @@
 {
   "format": 1,
   "registry": "official",
-  "sequence": 4,
-  "generated": 1794608760,
+  "sequence": 5,
+  "generated": 1794759521,
   "plugins": {
     "atuin": {
       "name": "Atuin",
@@ -21,6 +21,23 @@
         "1.0.0": {
           "files": {
             "plugin.toml": "bc6594f60a10d426a346bd0832cf788ba18355c780465fa99186ba208633817d",
+            "zsh/init.zsh": "5df0da1e1666a793486155e537c328f1985a38dc68edf1567c95d9d49dd03c64"
+          },
+          "permissions": [
+            "binaries",
+            "shell-code",
+            "network"
+          ],
+          "targets": [
+            "aarch64-linux",
+            "x86_64-linux"
+          ],
+          "goatty": ">=0.0.1",
+          "yanked": false
+        },
+        "1.1.0": {
+          "files": {
+            "plugin.toml": "43c0c870631ffb8cd8b211e6eaa311bdb23e43759796059ced387f6a989573bc",
             "zsh/init.zsh": "5df0da1e1666a793486155e537c328f1985a38dc68edf1567c95d9d49dd03c64"
           },
           "permissions": [
@@ -55,6 +72,23 @@
         "1.0.0": {
           "files": {
             "plugin.toml": "310296e704f13c610a1649512100fd586d08562494bfe2f58f34ba4227a13777"
+          },
+          "permissions": [
+            "binaries",
+            "aliases",
+            "env",
+            "config-files"
+          ],
+          "targets": [
+            "aarch64-linux",
+            "x86_64-linux"
+          ],
+          "goatty": ">=0.0.1",
+          "yanked": false
+        },
+        "1.1.0": {
+          "files": {
+            "plugin.toml": "2da170ef31fd60e1be0e901d4c64ad0eac52ff8acba9be16dcc8612fef45d047"
           },
           "permissions": [
             "binaries",
@@ -128,6 +162,21 @@
           ],
           "goatty": ">=0.0.1",
           "yanked": false
+        },
+        "1.1.0": {
+          "files": {
+            "plugin.toml": "41e17342b7df5ed1a15b87cadf2d48346b59a2ac80280eb0e987a968776b0209"
+          },
+          "permissions": [
+            "binaries",
+            "env"
+          ],
+          "targets": [
+            "aarch64-linux",
+            "x86_64-linux"
+          ],
+          "goatty": ">=0.0.1",
+          "yanked": false
         }
       }
     },
@@ -161,6 +210,19 @@
           "files": {
             "plugin.toml": "c4a48b79c09daef87b9eecb8e459ad9457a5655f724eb2aec7f119a4772413b2",
             "zsh/completion.zsh": "e333d81df81661445bafb0d35092acd659325f32dddf6be306d2f3bc43d9db1a"
+          },
+          "permissions": [
+            "shell-code",
+            "aliases"
+          ],
+          "targets": [],
+          "goatty": ">=0.0.1",
+          "yanked": false
+        },
+        "1.1.0": {
+          "files": {
+            "plugin.toml": "e87f86f749701581eddf0cfc383806462ea450baba7c45aa10ed1305c3181dfc",
+            "zsh/init.zsh": "aeccba0b232fe713e2d56dfd5681f70a588173ef3e8afecf096fae19cc451d8d"
           },
           "permissions": [
             "shell-code",
@@ -291,6 +353,21 @@
           ],
           "goatty": ">=0.0.1",
           "yanked": false
+        },
+        "1.1.0": {
+          "files": {
+            "plugin.toml": "a3511481c61f22016d9768243df9729393e91a1467f39e7f5fd7bb17faa3aa85"
+          },
+          "permissions": [
+            "binaries",
+            "aliases"
+          ],
+          "targets": [
+            "aarch64-linux",
+            "x86_64-linux"
+          ],
+          "goatty": ">=0.0.1",
+          "yanked": false
         }
       }
     },
@@ -336,6 +413,21 @@
         "1.0.0": {
           "files": {
             "plugin.toml": "a6e7e86c4e94c964292c2ac40d5fda62295eab908265ff532cd9b13c5e39bd0a"
+          },
+          "permissions": [
+            "binaries",
+            "aliases"
+          ],
+          "targets": [
+            "aarch64-linux",
+            "x86_64-linux"
+          ],
+          "goatty": ">=0.0.1",
+          "yanked": false
+        },
+        "1.1.0": {
+          "files": {
+            "plugin.toml": "8b84c2c16e463af71deac334268a83f3feb979619e1dbcc43cb856ccf11f1aa3"
           },
           "permissions": [
             "binaries",
@@ -427,6 +519,21 @@
         "1.0.0": {
           "files": {
             "plugin.toml": "ed563024c967dd0c24b095add6fdb3a2bf37ef0246016636b02ace2961dbc369"
+          },
+          "permissions": [
+            "binaries",
+            "aliases"
+          ],
+          "targets": [
+            "aarch64-linux",
+            "x86_64-linux"
+          ],
+          "goatty": ">=0.0.1",
+          "yanked": false
+        },
+        "1.1.0": {
+          "files": {
+            "plugin.toml": "acc36cdf6cf10157431bd5ce923e4de9db22c314007b7a5e3e2c31a2f6ca81b5"
           },
           "permissions": [
             "binaries",
