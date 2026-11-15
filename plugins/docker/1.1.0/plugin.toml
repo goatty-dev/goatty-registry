@@ -1,0 +1,378 @@
+schema = 1
+id = "docker"
+name = "Docker"
+version = "1.1.0"
+summary = "Completion and short aliases for the Docker CLI you already have"
+description = """
+Tab completion for docker commands, containers and images, plus short aliases for \
+docker, docker compose, containers, images, networks and volumes (dps, dcls, dco, \
+dcupd, …). This plugin doesn't install Docker: it integrates the docker command when \
+it's installed, and stays quiet when it isn't.
+"""
+publisher = "goatty"
+homepage = "https://docs.docker.com/engine/cli/completion/"
+license = "MIT"
+keywords = ["docker", "containers", "compose", "completion"]
+
+[compat]
+goatty = ">=0.0.1"
+
+[requires]
+commands = ["docker"]
+
+[[setting]]
+id = "completion"
+label = "Tab completion"
+help = "Complete docker subcommands, options, container and image names with Tab. Generated once by `docker completion zsh` and cached until docker changes."
+type = "bool"
+default = true
+
+[[setting]]
+id = "aliases"
+label = "Short aliases"
+help = "Short aliases for docker compose (dco, dcup, dcupd, dcdn, dclf, …), containers (dps, dcls, dclsa, dlo, drit, dxcit, dsa, dxa, …), images (dils, dib, dpu, …), networks (dnls, dni, dnrm), volumes (dvls, dvi, dvprune) and system (dsp)."
+type = "bool"
+default = true
+
+# --- Docker Compose ----------------------------------------------------------
+
+[[alias]]
+name = "dco"
+command = "docker"
+args = ["compose"]
+when = "aliases"
+description = "docker compose"
+
+[[alias]]
+name = "dcb"
+command = "docker"
+args = ["compose", "build"]
+when = "aliases"
+description = "Build or rebuild compose services"
+
+[[alias]]
+name = "dce"
+command = "docker"
+args = ["compose", "exec"]
+when = "aliases"
+description = "Execute a command in a running compose container"
+
+[[alias]]
+name = "dcps"
+command = "docker"
+args = ["compose", "ps"]
+when = "aliases"
+description = "List compose containers"
+
+[[alias]]
+name = "dcrestart"
+command = "docker"
+args = ["compose", "restart"]
+when = "aliases"
+description = "Restart compose service containers"
+
+[[alias]]
+name = "dcrm"
+command = "docker"
+args = ["compose", "rm"]
+when = "aliases"
+description = "Remove stopped compose service containers"
+
+[[alias]]
+name = "dcr"
+command = "docker"
+args = ["compose", "run"]
+when = "aliases"
+description = "Run a one-off command on a compose service"
+
+[[alias]]
+name = "dcstop"
+command = "docker"
+args = ["compose", "stop"]
+when = "aliases"
+description = "Stop compose services"
+
+[[alias]]
+name = "dcup"
+command = "docker"
+args = ["compose", "up"]
+when = "aliases"
+description = "Create and start compose containers"
+
+[[alias]]
+name = "dcupb"
+command = "docker"
+args = ["compose", "up", "--build"]
+when = "aliases"
+description = "Build images and start compose containers"
+
+[[alias]]
+name = "dcupd"
+command = "docker"
+args = ["compose", "up", "-d"]
+when = "aliases"
+description = "Start compose containers in the background"
+
+[[alias]]
+name = "dcupdb"
+command = "docker"
+args = ["compose", "up", "-d", "--build"]
+when = "aliases"
+description = "Build images and start compose containers in the background"
+
+[[alias]]
+name = "dcdn"
+command = "docker"
+args = ["compose", "down"]
+when = "aliases"
+description = "Stop and remove compose containers and networks"
+
+[[alias]]
+name = "dcl"
+command = "docker"
+args = ["compose", "logs"]
+when = "aliases"
+description = "View output from compose containers"
+
+[[alias]]
+name = "dclf"
+command = "docker"
+args = ["compose", "logs", "-f"]
+when = "aliases"
+description = "Follow output from compose containers"
+
+[[alias]]
+name = "dcpull"
+command = "docker"
+args = ["compose", "pull"]
+when = "aliases"
+description = "Pull compose service images"
+
+[[alias]]
+name = "dcstart"
+command = "docker"
+args = ["compose", "start"]
+when = "aliases"
+description = "Start existing compose services"
+
+[[alias]]
+name = "dck"
+command = "docker"
+args = ["compose", "kill"]
+when = "aliases"
+description = "Force stop compose service containers"
+
+# --- Docker / Containers -----------------------------------------------------
+
+[[alias]]
+name = "dbl"
+command = "docker"
+args = ["build"]
+when = "aliases"
+description = "Build an image from a Dockerfile"
+
+[[alias]]
+name = "dcin"
+command = "docker"
+args = ["container", "inspect"]
+when = "aliases"
+description = "Display detailed information on one or more containers"
+
+[[alias]]
+name = "dcls"
+command = "docker"
+args = ["container", "ls"]
+when = "aliases"
+description = "List running containers"
+
+[[alias]]
+name = "dclsa"
+command = "docker"
+args = ["container", "ls", "-a"]
+when = "aliases"
+description = "List all containers"
+
+[[alias]]
+name = "dlo"
+command = "docker"
+args = ["container", "logs"]
+when = "aliases"
+description = "Fetch the logs of a container"
+
+[[alias]]
+name = "dr"
+command = "docker"
+args = ["container", "run"]
+when = "aliases"
+description = "Create and run a new container from an image"
+
+[[alias]]
+name = "drit"
+command = "docker"
+args = ["container", "run", "-it"]
+when = "aliases"
+description = "Run a new container interactively with a TTY"
+
+[[alias]]
+name = "drm"
+command = "docker"
+args = ["container", "rm"]
+when = "aliases"
+description = "Remove one or more containers"
+
+[[alias]]
+name = "dst"
+command = "docker"
+args = ["container", "start"]
+when = "aliases"
+description = "Start one or more stopped containers"
+
+[[alias]]
+name = "drs"
+command = "docker"
+args = ["container", "restart"]
+when = "aliases"
+description = "Restart one or more containers"
+
+[[alias]]
+name = "dstp"
+command = "docker"
+args = ["container", "stop"]
+when = "aliases"
+description = "Stop one or more running containers"
+
+[[alias]]
+name = "dtop"
+command = "docker"
+args = ["top"]
+when = "aliases"
+description = "Display the running processes of a container"
+
+[[alias]]
+name = "dxc"
+command = "docker"
+args = ["container", "exec"]
+when = "aliases"
+description = "Execute a command in a running container"
+
+[[alias]]
+name = "dxcit"
+command = "docker"
+args = ["container", "exec", "-it"]
+when = "aliases"
+description = "Execute an interactive command with a TTY in a running container"
+
+# --- Docker images -----------------------------------------------------------
+
+[[alias]]
+name = "dib"
+command = "docker"
+args = ["image", "build"]
+when = "aliases"
+description = "Build an image from a Dockerfile"
+
+[[alias]]
+name = "dii"
+command = "docker"
+args = ["image", "inspect"]
+when = "aliases"
+description = "Display detailed information on one or more images"
+
+[[alias]]
+name = "dils"
+command = "docker"
+args = ["image", "ls"]
+when = "aliases"
+description = "List images"
+
+[[alias]]
+name = "dipu"
+command = "docker"
+args = ["image", "push"]
+when = "aliases"
+description = "Upload an image to a registry"
+
+[[alias]]
+name = "dirm"
+command = "docker"
+args = ["image", "rm"]
+when = "aliases"
+description = "Remove one or more images"
+
+[[alias]]
+name = "dit"
+command = "docker"
+args = ["image", "tag"]
+when = "aliases"
+description = "Create a tag TARGET_IMAGE that refers to SOURCE_IMAGE"
+
+[[alias]]
+name = "dpu"
+command = "docker"
+args = ["pull"]
+when = "aliases"
+description = "Download an image from a registry"
+
+# --- Docker networks, volumes & system ---------------------------------------
+
+[[alias]]
+name = "dni"
+command = "docker"
+args = ["network", "inspect"]
+when = "aliases"
+description = "Display detailed information on one or more networks"
+
+[[alias]]
+name = "dnls"
+command = "docker"
+args = ["network", "ls"]
+when = "aliases"
+description = "List networks"
+
+[[alias]]
+name = "dnrm"
+command = "docker"
+args = ["network", "rm"]
+when = "aliases"
+description = "Remove one or more networks"
+
+[[alias]]
+name = "dvi"
+command = "docker"
+args = ["volume", "inspect"]
+when = "aliases"
+description = "Display detailed information on one or more volumes"
+
+[[alias]]
+name = "dvls"
+command = "docker"
+args = ["volume", "ls"]
+when = "aliases"
+description = "List volumes"
+
+[[alias]]
+name = "dvprune"
+command = "docker"
+args = ["volume", "prune"]
+when = "aliases"
+description = "Remove unused local volumes"
+
+[[alias]]
+name = "dps"
+command = "docker"
+args = ["ps"]
+when = "aliases"
+description = "List running containers"
+
+[[alias]]
+name = "dsp"
+command = "docker"
+args = ["system", "prune"]
+when = "aliases"
+description = "Remove unused data (containers, networks, images, build cache)"
+
+[zsh]
+init = "zsh/init.zsh"
+
+[permissions]
+shell-code = "Loads docker's own zsh completion (from `docker completion zsh`, cached in ~/.cache/goatty) when Tab completion is on, and defines the `dsa` and `dxa` pipeline aliases when Short aliases is on."
