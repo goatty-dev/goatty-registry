@@ -1,0 +1,387 @@
+schema = 1
+id = "git"
+name = "Git"
+version = "1.0.0"
+summary = "Git snippets: switch branches, stage files, undo a commit, with your branches and files suggested"
+description = """
+Snippets for the git commands you'd otherwise look up: switch to a branch, stage some files, undo the last \
+commit, stash your changes, show a commit. Pick one with Ctrl+Shift+S: goatty lists the repository's \
+branches, commits and changed files to choose from, shows the finished command and puts it on your prompt \
+to read and run. This plugin doesn't install git: it uses the git you have."""
+publisher = "goatty"
+homepage = "https://git-scm.com/docs"
+license = "MIT"
+keywords = ["git", "version control", "branch", "commit", "snippets"]
+
+[compat]
+# The first goatty with snippets (#89).
+goatty = ">0.1.0"
+
+[requires]
+commands = ["git"]
+
+[permissions]
+snippet-sources = "Lists the repository's branches, recent commits, stashes and changed files (read-only git commands) so you can pick them instead of typing them."
+
+# --- Branches -------------------------------------------------------------------
+
+[[snippet]]
+id = "switch-branch"
+title = "Switch to a branch"
+description = "Moves your working copy to another branch. Uncommitted changes come along unless they conflict."
+tags = ["git", "branch"]
+keywords = ["checkout", "change branch", "go to branch"]
+safety = "changes"
+line = "git switch {branch}"
+
+[[snippet.input]]
+id = "branch"
+label = "Branch"
+help = "Your local branches, newest first"
+strict = true
+[snippet.input.source]
+run = ["git", "for-each-ref", "--sort=-committerdate", "--format=%(refname:short)%09%(contents:subject)", "refs/heads"]
+split = "\t"
+on_fail = "Not in a git repository"
+
+[[snippet]]
+id = "new-branch"
+title = "Start a new branch"
+description = "Creates a branch from where you are and switches to it. Your uncommitted changes come along."
+tags = ["git", "branch"]
+keywords = ["create branch", "checkout -b"]
+safety = "changes"
+line = "git switch -c {name}"
+
+[[snippet.input]]
+id = "name"
+label = "New branch name"
+placeholder = "fix-login-bug"
+pattern = "[A-Za-z0-9._/-]+"
+pattern_help = "letters, digits and . _ / -"
+
+[[snippet]]
+id = "delete-branch"
+title = "Delete a branch"
+description = "Removes a local branch. git refuses when it has commits that aren't merged anywhere."
+tags = ["git", "branch"]
+keywords = ["remove branch", "branch -d", "cleanup"]
+safety = "destructive"
+line = "git branch -d {branch}"
+
+[[snippet.input]]
+id = "branch"
+label = "Branch to delete"
+strict = true
+[snippet.input.source]
+run = ["git", "for-each-ref", "--format=%(refname:short)%09%(contents:subject)", "refs/heads"]
+split = "\t"
+on_fail = "Not in a git repository"
+
+[[snippet]]
+id = "merge-branch"
+title = "Merge another branch into this one"
+description = "Brings the other branch's commits into yours. If both changed the same lines, git stops and asks you to resolve that."
+tags = ["git", "branch"]
+keywords = ["merge", "combine", "integrate"]
+safety = "changes"
+line = "git merge {branch}"
+
+[[snippet.input]]
+id = "branch"
+label = "Branch to merge in"
+strict = true
+[snippet.input.source]
+run = ["git", "for-each-ref", "--sort=-committerdate", "--format=%(refname:short)%09%(contents:subject)", "refs/heads", "refs/remotes"]
+split = "\t"
+on_fail = "Not in a git repository"
+
+[[snippet]]
+id = "compare-branch"
+title = "See what this branch changed compared to another"
+description = "Shows the changes made on your branch since it split off from the other one."
+tags = ["git", "branch"]
+keywords = ["diff", "compare", "review", "changes"]
+safety = "safe"
+line = "git diff {branch}...HEAD"
+
+[[snippet.input]]
+id = "branch"
+label = "Compared to"
+default = "main"
+[snippet.input.source]
+run = ["git", "for-each-ref", "--format=%(refname:short)", "refs/heads", "refs/remotes"]
+on_fail = "Not in a git repository"
+
+[[snippet]]
+id = "publish-branch"
+title = "Push a new branch to the server"
+description = "Uploads your branch to origin and remembers it, so a plain git push works from then on."
+tags = ["git", "branch", "remote"]
+keywords = ["push", "upstream", "set-upstream", "publish"]
+safety = "changes"
+line = "git push -u origin HEAD"
+
+# --- Files ----------------------------------------------------------------------
+
+[[snippet]]
+id = "stage-files"
+title = "Stage files for the next commit"
+description = "Marks changed or new files to go into the next commit. Pick several; an empty field goes on."
+tags = ["git", "files"]
+keywords = ["add", "git add", "index"]
+safety = "changes"
+line = "git add -- {files}"
+
+[[snippet.input]]
+id = "files"
+label = "Files"
+help = "Changed and new files (Enter adds one, Enter on an empty field goes on)"
+multiple = true
+[snippet.input.source]
+run = ["git", "ls-files", "--modified", "--others", "--exclude-standard", "--deduplicate"]
+on_fail = "Nothing changed (or not a git repository)"
+
+[[snippet]]
+id = "unstage-files"
+title = "Unstage files"
+description = "Takes files out of the next commit again. Your changes in them stay."
+tags = ["git", "files"]
+keywords = ["reset", "restore --staged", "remove from index"]
+safety = "changes"
+line = "git restore --staged -- {files}"
+
+[[snippet.input]]
+id = "files"
+label = "Files"
+multiple = true
+[snippet.input.source]
+run = ["git", "diff", "--name-only", "--cached"]
+on_fail = "Nothing is staged"
+
+[[snippet]]
+id = "discard-changes"
+title = "Throw away changes to files"
+description = "Puts files back the way they were in the last commit. The changes are gone for good."
+tags = ["git", "files"]
+keywords = ["restore", "revert file", "checkout --", "reset file"]
+safety = "destructive"
+line = "git restore -- {files}"
+
+[[snippet.input]]
+id = "files"
+label = "Files"
+multiple = true
+[snippet.input.source]
+run = ["git", "diff", "--name-only"]
+on_fail = "No changed files"
+
+[[snippet]]
+id = "file-history"
+title = "See a file's history"
+description = "Every commit that changed the file, with the changes, following renames."
+tags = ["git", "files", "history"]
+keywords = ["log", "follow", "who changed"]
+safety = "safe"
+line = "git log --follow -p -- {file}"
+
+[[snippet.input]]
+id = "file"
+label = "File"
+type = "path"
+must_exist = true
+
+[[snippet]]
+id = "blame"
+title = "See who last changed each line of a file"
+description = "Every line with the commit, author and date that last touched it."
+tags = ["git", "files", "history"]
+keywords = ["blame", "annotate", "who wrote"]
+safety = "safe"
+line = "git blame {file}"
+
+[[snippet.input]]
+id = "file"
+label = "File"
+type = "path"
+must_exist = true
+
+# --- Commits --------------------------------------------------------------------
+
+[[snippet]]
+id = "commit"
+title = "Commit the staged changes"
+description = "Records the staged changes as a commit with your message (stage files first)."
+tags = ["git", "commit"]
+keywords = ["save", "commit -m", "message"]
+safety = "changes"
+line = "git commit -m {message}"
+
+[[snippet.input]]
+id = "message"
+label = "What the commit does"
+placeholder = "Fix the login button on small screens"
+
+[[snippet]]
+id = "fix-last-message"
+title = "Change the last commit's message"
+description = "Rewrites the message of the commit you just made. Don't do this once it's pushed."
+tags = ["git", "commit"]
+keywords = ["amend", "reword", "typo"]
+safety = "changes"
+line = "git commit --amend -m {message}"
+
+[[snippet.input]]
+id = "message"
+label = "New message"
+
+[[snippet]]
+id = "undo-last-commit"
+title = "Undo the last commit, keep its changes"
+description = "Takes back the last commit; its changes stay in your files, staged, ready to commit again."
+tags = ["git", "commit", "undo"]
+keywords = ["reset --soft", "uncommit", "oops"]
+safety = "changes"
+line = "git reset --soft HEAD~1"
+
+[[snippet]]
+id = "show-commit"
+title = "Show a commit"
+description = "The commit's message and its changes."
+tags = ["git", "commit", "history"]
+keywords = ["show", "log", "what changed"]
+safety = "safe"
+line = "git show {commit}"
+
+[[snippet.input]]
+id = "commit"
+label = "Commit"
+help = "The last 200 commits on this branch"
+[snippet.input.source]
+run = ["git", "log", "--format=%h%x09%s%x09%ar", "--max-count=200"]
+split = "\t"
+on_fail = "No commits (or not a git repository)"
+
+[[snippet]]
+id = "revert-commit"
+title = "Undo a commit with a new commit"
+description = "Makes a new commit that reverses an older one. Safe for commits that are already pushed."
+tags = ["git", "commit", "undo"]
+keywords = ["revert", "back out"]
+safety = "changes"
+line = "git revert {commit}"
+
+[[snippet.input]]
+id = "commit"
+label = "Commit to undo"
+strict = true
+[snippet.input.source]
+run = ["git", "log", "--format=%h%x09%s%x09%ar", "--max-count=200"]
+split = "\t"
+on_fail = "No commits (or not a git repository)"
+
+[[snippet]]
+id = "cherry-pick"
+title = "Copy a commit from another branch"
+description = "Applies one commit from another branch on top of yours, as a new commit."
+tags = ["git", "commit", "branch"]
+keywords = ["cherry-pick", "apply commit"]
+safety = "changes"
+line = "git cherry-pick {commit}"
+
+[[snippet.input]]
+id = "branch"
+label = "From branch"
+strict = true
+[snippet.input.source]
+run = ["git", "for-each-ref", "--format=%(refname:short)", "refs/heads", "refs/remotes"]
+on_fail = "Not in a git repository"
+
+[[snippet.input]]
+id = "commit"
+label = "Commit"
+strict = true
+[snippet.input.source]
+run = ["git", "log", "--format=%h%x09%s%x09%ar", "--max-count=100", "{branch}"]
+split = "\t"
+
+# --- Stash ----------------------------------------------------------------------
+
+[[snippet]]
+id = "stash"
+title = "Put your changes aside (stash)"
+description = "Saves your uncommitted changes and cleans your working copy, so you can switch branches. Bring them back with \"Bring back stashed changes\"."
+tags = ["git", "stash"]
+keywords = ["stash", "save for later", "shelve"]
+safety = "changes"
+line = "git stash push --include-untracked -m {message}"
+
+[[snippet.input]]
+id = "message"
+label = "A note to find it again"
+placeholder = "half-done login fix"
+
+[[snippet]]
+id = "stash-pop"
+title = "Bring back stashed changes"
+description = "Puts changes you stashed back into your files and drops them from the stash."
+tags = ["git", "stash"]
+keywords = ["stash pop", "unstash", "apply stash"]
+safety = "changes"
+line = "git stash pop {stash}"
+
+[[snippet.input]]
+id = "stash"
+label = "Stash"
+strict = true
+[snippet.input.source]
+run = ["git", "stash", "list", "--format=%gd%x09%s%x09%cr"]
+split = "\t"
+on_fail = "Nothing stashed"
+
+# --- Getting started --------------------------------------------------------------
+
+[[snippet]]
+id = "clone"
+title = "Download a repository (clone)"
+description = "Copies a repository with its whole history into a new folder."
+tags = ["git", "remote"]
+keywords = ["clone", "download", "github", "checkout repo"]
+safety = "changes"
+line = "git clone {url} {dir}"
+
+[[snippet.input]]
+id = "url"
+label = "Repository address"
+placeholder = "https://github.com/owner/project.git"
+
+[[snippet.input]]
+id = "dir"
+label = "Into folder (empty: the project's name)"
+type = "folder"
+optional = true
+
+[[snippet]]
+id = "status"
+title = "See what changed"
+description = "Which files are changed, new or staged, and how your branch compares to the server's."
+tags = ["git"]
+keywords = ["status", "changes", "modified"]
+safety = "safe"
+line = "git status --short --branch"
+
+[[snippet]]
+id = "log-graph"
+title = "See the history as a graph"
+description = "The latest commits of every branch, one line each, with lines showing how branches split and merge."
+tags = ["git", "history"]
+keywords = ["log", "graph", "tree", "branches"]
+safety = "safe"
+line = "git log --oneline --graph --decorate --all --max-count={count}"
+
+[[snippet.input]]
+id = "count"
+label = "How many commits"
+type = "integer"
+min = 1
+default = "40"
