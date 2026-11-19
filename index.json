@@ -1,8 +1,8 @@
 {
   "format": 1,
   "registry": "official",
-  "sequence": 5,
-  "generated": 1794759521,
+  "sequence": 6,
+  "generated": 1795117155,
   "plugins": {
     "atuin": {
       "name": "Atuin",
@@ -371,6 +371,111 @@
         }
       }
     },
+    "fnm": {
+      "name": "fnm",
+      "summary": "Fast, simple Node.js version manager with automatic switching on `cd`",
+      "publisher": "goatty",
+      "category": "environment",
+      "keywords": [
+        "node",
+        "nodejs",
+        "npm",
+        "nvm",
+        "javascript",
+        "typescript",
+        "runtime"
+      ],
+      "homepage": "https://fnm.vercel.app",
+      "versions": {
+        "1.0.0": {
+          "files": {
+            "plugin.toml": "1dd6207b1f0ad11e1a9f10d0a0ba3401b2e1fa6935ee29cbe263fb26df2f0619",
+            "zsh/init.zsh": "fe9462f80d1b29a65a86a574f22690dc48a54b282ced6b2b073c11f70da5a74e"
+          },
+          "permissions": [
+            "binaries",
+            "shell-code",
+            "network",
+            "snippets"
+          ],
+          "targets": [
+            "aarch64-linux",
+            "aarch64-macos",
+            "x86_64-linux",
+            "x86_64-macos"
+          ],
+          "goatty": ">0.1.0",
+          "yanked": false
+        }
+      }
+    },
+    "gh": {
+      "name": "GitHub CLI",
+      "summary": "GitHub from the terminal: pull requests, issues, and CI runs with live suggestions",
+      "publisher": "goatty",
+      "category": "environment",
+      "keywords": [
+        "github",
+        "git",
+        "pr",
+        "pull-request",
+        "issues",
+        "actions",
+        "ci"
+      ],
+      "homepage": "https://cli.github.com",
+      "versions": {
+        "1.0.0": {
+          "files": {
+            "plugin.toml": "e65a6ce2cd3c45c4072cd1df1811229f768114cfd897d1b18029a1f5b9df9590"
+          },
+          "permissions": [
+            "binaries",
+            "network",
+            "env",
+            "commands",
+            "snippets",
+            "snippet-sources"
+          ],
+          "targets": [
+            "aarch64-linux",
+            "aarch64-macos",
+            "x86_64-linux",
+            "x86_64-macos"
+          ],
+          "goatty": ">0.1.0",
+          "yanked": false
+        }
+      }
+    },
+    "git": {
+      "name": "Git",
+      "summary": "Git snippets: switch branches, stage files, undo a commit, with your branches and files suggested",
+      "publisher": "goatty",
+      "category": "environment",
+      "keywords": [
+        "git",
+        "version control",
+        "branch",
+        "commit",
+        "snippets"
+      ],
+      "homepage": "https://git-scm.com/docs",
+      "versions": {
+        "1.0.0": {
+          "files": {
+            "plugin.toml": "072a1523e11847f7330ec1830b95c1a95d443459b3b3e6fcc7ca05a57b7ab81e"
+          },
+          "permissions": [
+            "snippets",
+            "snippet-sources"
+          ],
+          "targets": [],
+          "goatty": ">0.1.0",
+          "yanked": false
+        }
+      }
+    },
     "htop": {
       "name": "htop",
       "summary": "Shortcut for the interactive process viewer htop",
@@ -393,6 +498,79 @@
           ],
           "targets": [],
           "goatty": ">=0.0.1",
+          "yanked": false
+        }
+      }
+    },
+    "jq": {
+      "name": "jq",
+      "summary": "Command-line JSON processor: pretty-print, filter, and transform JSON",
+      "publisher": "goatty",
+      "category": "environment",
+      "keywords": [
+        "json",
+        "filter",
+        "parse",
+        "format",
+        "pretty-print",
+        "api"
+      ],
+      "homepage": "https://jqlang.org",
+      "versions": {
+        "1.0.0": {
+          "files": {
+            "plugin.toml": "79756d55761e944d9180cc3f68ede7be09a48bc4a9110a263b60ec3b21f40a2e"
+          },
+          "permissions": [
+            "binaries",
+            "aliases",
+            "snippets"
+          ],
+          "targets": [
+            "aarch64-linux",
+            "aarch64-macos",
+            "x86_64-linux",
+            "x86_64-macos"
+          ],
+          "goatty": ">0.1.0",
+          "yanked": false
+        }
+      }
+    },
+    "just": {
+      "name": "just",
+      "summary": "Project command runner: run `justfile` recipes with tab completion and a recipe picker",
+      "publisher": "goatty",
+      "category": "environment",
+      "keywords": [
+        "justfile",
+        "make",
+        "task-runner",
+        "scripts",
+        "recipes",
+        "build"
+      ],
+      "homepage": "https://just.systems",
+      "versions": {
+        "1.0.0": {
+          "files": {
+            "plugin.toml": "659de3e616a19fe0f866b883e6b2d602b5dcb35645cab36f94e19f7f7eda0dd4"
+          },
+          "permissions": [
+            "binaries",
+            "aliases",
+            "env",
+            "commands",
+            "snippets",
+            "snippet-sources"
+          ],
+          "targets": [
+            "aarch64-linux",
+            "aarch64-macos",
+            "x86_64-linux",
+            "x86_64-macos"
+          ],
+          "goatty": ">0.1.0",
           "yanked": false
         }
       }
@@ -479,14 +657,15 @@
     },
     "procs": {
       "name": "procs",
-      "summary": "Modern process viewer with readable columns and search",
+      "summary": "Modern process viewer with readable columns, tree view, and search",
       "publisher": "goatty",
       "category": "environment",
       "keywords": [
         "processes",
         "ps",
         "monitor",
-        "search"
+        "search",
+        "tree"
       ],
       "homepage": "https://github.com/dalance/procs",
       "versions": {
@@ -499,6 +678,62 @@
           ],
           "targets": [],
           "goatty": ">=0.0.1",
+          "yanked": false
+        },
+        "1.1.0": {
+          "files": {
+            "plugin.toml": "21e217171bef4bf55e74728180f7215c238d2a36240343fe3942e063e19f18cf"
+          },
+          "permissions": [
+            "binaries",
+            "aliases"
+          ],
+          "targets": [
+            "aarch64-linux",
+            "aarch64-macos",
+            "x86_64-linux",
+            "x86_64-macos"
+          ],
+          "goatty": ">0.1.0",
+          "yanked": false
+        }
+      }
+    },
+    "rclone": {
+      "name": "rclone",
+      "summary": "Sync and manage files across cloud storage (S3, Google Drive, SFTP, and 70+ backends)",
+      "publisher": "goatty",
+      "category": "environment",
+      "keywords": [
+        "cloud",
+        "sync",
+        "backup",
+        "s3",
+        "gdrive",
+        "sftp",
+        "storage",
+        "rsync"
+      ],
+      "homepage": "https://rclone.org",
+      "versions": {
+        "1.0.0": {
+          "files": {
+            "plugin.toml": "eb87c28363e70a69657e2f28f428e2542d48298dd4d8553205ec842885388104"
+          },
+          "permissions": [
+            "binaries",
+            "network",
+            "env",
+            "snippets",
+            "snippet-sources"
+          ],
+          "targets": [
+            "aarch64-linux",
+            "aarch64-macos",
+            "x86_64-linux",
+            "x86_64-macos"
+          ],
+          "goatty": ">0.1.0",
           "yanked": false
         }
       }
@@ -583,6 +818,154 @@
         }
       }
     },
+    "uv": {
+      "name": "uv",
+      "summary": "Fast Python package, project, and version manager (`uv`, `uvx`)",
+      "publisher": "goatty",
+      "category": "environment",
+      "keywords": [
+        "python",
+        "pip",
+        "venv",
+        "virtualenv",
+        "package-manager",
+        "uvx",
+        "runtime"
+      ],
+      "homepage": "https://docs.astral.sh/uv",
+      "versions": {
+        "1.0.0": {
+          "files": {
+            "plugin.toml": "1331c1e4cc57a7203d58e18259cdfed8475e523b950793b720309ba575d89067"
+          },
+          "permissions": [
+            "binaries",
+            "network",
+            "env",
+            "snippets"
+          ],
+          "targets": [
+            "aarch64-linux",
+            "aarch64-macos",
+            "x86_64-linux",
+            "x86_64-macos"
+          ],
+          "goatty": ">0.1.0",
+          "yanked": false
+        }
+      }
+    },
+    "xh": {
+      "name": "xh",
+      "summary": "Friendly, fast HTTP client for testing APIs (modern curl / HTTPie-compatible)",
+      "publisher": "goatty",
+      "category": "environment",
+      "keywords": [
+        "http",
+        "https",
+        "api",
+        "rest",
+        "curl",
+        "httpie",
+        "json",
+        "network"
+      ],
+      "homepage": "https://github.com/ducaale/xh",
+      "versions": {
+        "1.0.0": {
+          "files": {
+            "plugin.toml": "a7bfb541f0c17226a2f687ba713be6f482cda81ea1e5c318ece2cbb85fdcf273"
+          },
+          "permissions": [
+            "binaries",
+            "network",
+            "aliases",
+            "snippets"
+          ],
+          "targets": [
+            "aarch64-linux",
+            "aarch64-macos",
+            "x86_64-linux",
+            "x86_64-macos"
+          ],
+          "goatty": ">0.1.0",
+          "yanked": false
+        }
+      }
+    },
+    "yazi": {
+      "name": "Yazi",
+      "summary": "Fast terminal file manager with image previews, tabs, and `y` cd-on-exit wrapper",
+      "publisher": "goatty",
+      "category": "environment",
+      "keywords": [
+        "file-manager",
+        "files",
+        "explorer",
+        "tui",
+        "ranger",
+        "lf",
+        "navigation"
+      ],
+      "homepage": "https://yazi-rs.github.io",
+      "versions": {
+        "1.0.0": {
+          "files": {
+            "plugin.toml": "475e854bedc23c811063718ec45c6919858046221b44306d5d7edfaa467ccec8",
+            "zsh/init.zsh": "7ca151094894621c19d99a8c7dc06e914369a86fce1f9b8f5aaf2118bbb9161e"
+          },
+          "permissions": [
+            "binaries",
+            "shell-code",
+            "commands"
+          ],
+          "targets": [
+            "aarch64-linux",
+            "aarch64-macos",
+            "x86_64-linux",
+            "x86_64-macos"
+          ],
+          "goatty": ">0.1.0",
+          "yanked": false
+        }
+      }
+    },
+    "yq": {
+      "name": "yq",
+      "summary": "Command-line YAML, JSON, and TOML processor (like jq for config files)",
+      "publisher": "goatty",
+      "category": "environment",
+      "keywords": [
+        "yaml",
+        "json",
+        "toml",
+        "config",
+        "filter",
+        "convert",
+        "jq"
+      ],
+      "homepage": "https://mikefarah.gitbook.io/yq/",
+      "versions": {
+        "1.0.0": {
+          "files": {
+            "plugin.toml": "2baac0033b018574abee656a7bd8c1a0fb40305b93f86a7073900d2a0f38632b"
+          },
+          "permissions": [
+            "binaries",
+            "aliases",
+            "snippets"
+          ],
+          "targets": [
+            "aarch64-linux",
+            "aarch64-macos",
+            "x86_64-linux",
+            "x86_64-macos"
+          ],
+          "goatty": ">0.1.0",
+          "yanked": false
+        }
+      }
+    },
     "zoxide": {
       "name": "zoxide",
       "summary": "Jump to directories you use often: `z proj` instead of `cd ~/code/projects`",
@@ -611,6 +994,37 @@
           "targets": [
             "aarch64-linux",
             "x86_64-linux"
+          ],
+          "goatty": ">=0.0.1",
+          "yanked": false
+        }
+      }
+    },
+    "zsh-you-should-use": {
+      "name": "You Should Use",
+      "summary": "Reminds you when an alias already exists for a command you just typed",
+      "publisher": "goatty",
+      "category": "environment",
+      "keywords": [
+        "alias",
+        "aliases",
+        "zsh",
+        "reminder",
+        "learning",
+        "productivity"
+      ],
+      "homepage": "https://github.com/MichaelAquilina/zsh-you-should-use",
+      "versions": {
+        "1.0.0": {
+          "files": {
+            "plugin.toml": "3df2c8dbee9305fe72b9cc2736741fb098c901d943a0c52225810993ecb110c9"
+          },
+          "permissions": [
+            "binaries",
+            "env"
+          ],
+          "targets": [
+            "any"
           ],
           "goatty": ">=0.0.1",
           "yanked": false
