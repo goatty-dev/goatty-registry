@@ -1,0 +1,248 @@
+schema = 1
+id = "uv"
+name = "uv"
+version = "1.0.0"
+summary = "Fast Python package, project, and version manager (`uv`, `uvx`)"
+description = """
+uv is a single fast binary that replaces pip, pip-tools, venv, and pyenv: create projects \
+(`uv init`), manage dependencies (`uv add`, `uv sync`), run scripts (`uv run`), and run \
+Python CLI tools without installing them (`uvx`). Note: uv downloads Python builds and \
+packages from PyPI (or your configured index) itself, outside goatty's SHA-256 verification.
+"""
+publisher = "goatty"
+homepage = "https://docs.astral.sh/uv"
+license = "MIT OR Apache-2.0"
+keywords = ["python", "pip", "venv", "virtualenv", "package-manager", "uvx", "runtime"]
+
+[compat]
+# Snippets (#89) and macOS package installs (#97) landed after 0.1.0.
+goatty = ">0.1.0"
+os = ["linux", "macos"]
+
+[[package]]
+id = "uv"
+version = "0.13.7"
+bin = ["uv", "uvx"]
+completions = ["uv", "generate-shell-completion", "zsh"]
+
+[[package.asset]]
+target = "x86_64-linux"
+url = "https://github.com/astral-sh/uv/releases/download/0.13.7/uv-x86_64-unknown-linux-musl.tar.gz"
+sha256 = "287491da03f2a785c70fa75b13e1f849918c2f2b5415fe84876b8214eeb792f9"
+size = 18396915
+root = "uv-x86_64-unknown-linux-musl"
+
+[[package.asset]]
+target = "aarch64-linux"
+url = "https://github.com/astral-sh/uv/releases/download/0.13.7/uv-aarch64-unknown-linux-musl.tar.gz"
+sha256 = "2d3ec076a0c4c0e8250bb6418c44080828b544f1a3be0b6e46adf9fb6923de45"
+size = 16888574
+root = "uv-aarch64-unknown-linux-musl"
+
+[[package.asset]]
+target = "x86_64-macos"
+url = "https://github.com/astral-sh/uv/releases/download/0.13.7/uv-x86_64-apple-darwin.tar.gz"
+sha256 = "20c47e4c1f630b8abaff8c291fa9b9aa300fef92c4fbff95adf198b55287cda7"
+size = 17026382
+root = "uv-x86_64-apple-darwin"
+
+[[package.asset]]
+target = "aarch64-macos"
+url = "https://github.com/astral-sh/uv/releases/download/0.13.7/uv-aarch64-apple-darwin.tar.gz"
+sha256 = "81b811b57e4624df7ed3aac148e0359100d9962f3d9dce00aec533dc2e086731"
+size = 14347867
+root = "uv-aarch64-apple-darwin"
+
+# --- Settings ----------------------------------------------------------------
+
+[[setting]]
+id = "python_downloads"
+label = "Download Python automatically"
+help = "Whether uv may download standalone Python builds on its own when a project needs a version you don't have."
+type = "choice"
+default = "automatic"
+group = "Python"
+choices = [
+  { value = "automatic", label = "Automatic", help = "Download a managed Python version automatically when needed." },
+  { value = "manual", label = "Only on `uv python install`", help = "Never download implicitly; only when you run `uv python install`." },
+  { value = "never", label = "Never", help = "Disable Python downloads completely and only use installed interpreters." },
+]
+
+[[setting]]
+id = "python_preference"
+label = "Preferred Python installation"
+help = "Whether uv prefers its own managed Python builds or Python already installed on your system."
+type = "choice"
+default = "managed"
+group = "Python"
+advanced = true
+choices = [
+  { value = "managed", label = "uv-managed first", help = "Prefer uv's managed Python builds, falling back to system Python." },
+  { value = "system", label = "System first", help = "Prefer your system Python, falling back to uv-managed builds." },
+  { value = "only-managed", label = "uv-managed only", help = "Ignore system Python installations." },
+  { value = "only-system", label = "System only", help = "Never use uv-managed Python builds." },
+]
+
+[[setting]]
+id = "native_tls"
+label = "Use system TLS certificates"
+help = "Load TLS certificates from your operating system's trust store instead of uv's bundled certificates. Helpful behind corporate proxies or custom CAs."
+type = "bool"
+default = false
+group = "Network"
+advanced = true
+
+[[setting]]
+id = "offline"
+label = "Offline mode"
+help = "Never access the network; fail if a requested package or Python build isn't already in uv's local cache."
+type = "bool"
+default = false
+group = "Network"
+advanced = true
+
+# --- Environment -------------------------------------------------------------
+
+[[env]]
+name = "UV_PYTHON_DOWNLOADS"
+value = "{python_downloads}"
+when = "python_downloads!=automatic"
+
+[[env]]
+name = "UV_PYTHON_PREFERENCE"
+value = "{python_preference}"
+when = "python_preference!=managed"
+
+[[env]]
+name = "UV_NATIVE_TLS"
+value = "true"
+when = "native_tls"
+
+[[env]]
+name = "UV_OFFLINE"
+value = "true"
+when = "offline"
+
+# --- Snippets ----------------------------------------------------------------
+
+[[snippet]]
+id = "init"
+title = "Start a new Python project"
+description = "Creates pyproject.toml and a starter project layout with uv."
+tags = ["python", "uv"]
+keywords = ["create project", "pyproject", "new python"]
+safety = "changes"
+line = "uv init {name}"
+
+[[snippet.input]]
+id = "name"
+label = "Project folder (empty: current folder)"
+placeholder = "my-app"
+optional = true
+
+[[snippet]]
+id = "add"
+title = "Add a Python package to this project"
+description = "Installs a package into the project's virtual environment and records it in pyproject.toml and uv.lock."
+tags = ["python", "uv"]
+keywords = ["install", "pip install", "dependency", "requirements"]
+safety = "changes"
+line = "uv add {dev} {package}"
+
+[[snippet.input]]
+id = "package"
+label = "Package"
+placeholder = "httpx"
+help = "Package name, optionally with a version constraint (e.g. httpx>=0.27)"
+
+[[snippet.input]]
+id = "dev"
+label = "Development dependency only?"
+type = "flag"
+on = "--dev"
+default = "no"
+
+[[snippet]]
+id = "remove"
+title = "Remove a Python package from this project"
+description = "Removes a package from pyproject.toml and updates the virtual environment and lockfile."
+tags = ["python", "uv"]
+keywords = ["uninstall", "pip uninstall", "dependency"]
+safety = "changes"
+line = "uv remove {package}"
+
+[[snippet.input]]
+id = "package"
+label = "Package"
+placeholder = "httpx"
+
+[[snippet]]
+id = "sync"
+title = "Install the project's locked dependencies"
+description = "Creates or updates .venv so it matches uv.lock exactly."
+tags = ["python", "uv"]
+keywords = ["install", "venv", "lockfile"]
+safety = "changes"
+line = "uv sync"
+
+[[snippet]]
+id = "run"
+title = "Run a Python script in the project environment"
+description = "Runs a Python file using the project's virtual environment (syncing dependencies first if needed)."
+tags = ["python", "uv"]
+keywords = ["execute", "python", "script"]
+safety = "changes"
+line = "uv run {script}"
+
+[[snippet.input]]
+id = "script"
+label = "Script"
+type = "path"
+must_exist = true
+
+[[snippet]]
+id = "uvx"
+title = "Run a Python CLI tool without installing it"
+description = "Runs a package's command in a temporary isolated environment via uvx (like npx for Python). Add any tool arguments on your prompt before pressing Enter."
+tags = ["python", "uv"]
+keywords = ["uvx", "tool run", "pipx", "ruff", "pytest"]
+safety = "changes"
+line = "uvx {tool}"
+
+[[snippet.input]]
+id = "tool"
+label = "Tool name"
+placeholder = "ruff"
+
+[[snippet]]
+id = "python-install"
+title = "Install a Python version"
+description = "Downloads and installs a standalone Python version managed by uv."
+tags = ["python", "uv"]
+keywords = ["pyenv", "python version", "download python"]
+safety = "changes"
+line = "uv python install {version}"
+
+[[snippet.input]]
+id = "version"
+label = "Python version (empty: latest)"
+placeholder = "3.13"
+optional = true
+
+[[snippet]]
+id = "tool-install"
+title = "Install a Python CLI tool globally"
+description = "Installs a Python command-line tool into an isolated environment and puts its executable on your user bin directory."
+tags = ["python", "uv"]
+keywords = ["pipx", "global tool", "cli"]
+safety = "changes"
+line = "uv tool install {tool}"
+
+[[snippet.input]]
+id = "tool"
+label = "Package name"
+placeholder = "ruff"
+
+[permissions]
+binaries = "uv is a program: goatty downloads official astral-sh/uv releases (uv and uvx) from GitHub and verifies each archive against its pinned SHA-256 digest."
+network = "uv downloads Python runtimes and Python packages from PyPI or your configured package index itself, outside goatty's SHA-256 verification chain."

@@ -1,0 +1,186 @@
+schema = 1
+id = "just"
+name = "just"
+version = "1.0.0"
+summary = "Project command runner: run `justfile` recipes with tab completion and a recipe picker"
+description = """
+just is a handy way to save and run project-specific commands defined in a `justfile` \
+(like Make without the build-system quirks). Includes zsh tab completion and a palette \
+command and snippets that read the current project's recipes so you can pick one from a list.
+"""
+publisher = "goatty"
+homepage = "https://just.systems"
+license = "CC0-1.0"
+keywords = ["justfile", "make", "task-runner", "scripts", "recipes", "build"]
+
+[compat]
+# Snippets (#89), palette command sources (#229), and macOS package installs (#97) landed after 0.1.0.
+goatty = ">0.1.0"
+os = ["linux", "macos"]
+
+[[package]]
+id = "just"
+version = "1.59.0"
+bin = ["just"]
+completions = ["just", "--completions", "zsh"]
+
+[[package.asset]]
+target = "x86_64-linux"
+url = "https://github.com/casey/just/releases/download/1.59.0/just-1.59.0-x86_64-unknown-linux-musl.tar.gz"
+sha256 = "409044617b6f06517c1035e55ca38c8c856ff8b650e41bc2aa1ef82d5903a23e"
+size = 2572537
+
+[[package.asset]]
+target = "aarch64-linux"
+url = "https://github.com/casey/just/releases/download/1.59.0/just-1.59.0-aarch64-unknown-linux-musl.tar.gz"
+sha256 = "23871b1702bfd550fb5f901778fd4290ecf2ee034a45a889fbe96d89b188086d"
+size = 2343258
+
+[[package.asset]]
+target = "x86_64-macos"
+url = "https://github.com/casey/just/releases/download/1.59.0/just-1.59.0-x86_64-apple-darwin.tar.gz"
+sha256 = "036ead9df9bc31dbae9934ae3b4236ed124d0bafcffd33439460ae084d5c9cb7"
+size = 2357655
+
+[[package.asset]]
+target = "aarch64-macos"
+url = "https://github.com/casey/just/releases/download/1.59.0/just-1.59.0-aarch64-apple-darwin.tar.gz"
+sha256 = "6574cea774ed4cae12e24b6aa11857de33e80dab4667cf628fd5840df96a2a9d"
+size = 2174952
+
+# --- Settings ----------------------------------------------------------------
+
+[[setting]]
+id = "short_alias"
+label = "Add `j` shortcut for just"
+help = "Adds `j` as a short alias for `just`. Off by default so it doesn't collide with zoxide's `j` mode."
+type = "bool"
+default = false
+group = "Commands"
+
+[[setting]]
+id = "color"
+label = "Color output"
+help = "Whether just uses ANSI colors in its output and error messages."
+type = "choice"
+default = "auto"
+group = "Look"
+choices = [
+  { value = "auto", label = "Automatic", help = "Colors in a terminal; plain when piped." },
+  { value = "always", label = "Always" },
+  { value = "never", label = "Never" },
+]
+
+[[setting]]
+id = "unstable"
+label = "Enable unstable features"
+help = "Sets `JUST_UNSTABLE=1` so justfiles that use unstable just features run without passing `--unstable`."
+type = "bool"
+default = false
+group = "Behavior"
+advanced = true
+
+# --- Environment & Aliases ---------------------------------------------------
+
+[[env]]
+name = "JUST_COLOR"
+value = "{color}"
+when = "color!=auto"
+
+[[env]]
+name = "JUST_UNSTABLE"
+value = "1"
+when = "unstable"
+
+[[alias]]
+name = "j"
+command = "just"
+when = "short_alias"
+description = "Short alias for just"
+
+# --- Palette command ---------------------------------------------------------
+
+[[command]]
+id = "run"
+title = "Run a just recipe"
+keywords = ["justfile", "task", "recipe", "make"]
+run = ["just", "{recipe}"]
+
+[[command.input]]
+id = "recipe"
+label = "Recipe"
+help = "Recipes defined in this project's justfile"
+strict = true
+[command.input.source]
+run = ["just", "--list", "--unsorted", "--list-heading", "", "--list-prefix", ""]
+split = " "
+on_fail = "No justfile found in this folder (or its parents)"
+
+# --- Snippets ----------------------------------------------------------------
+
+[[snippet]]
+id = "run"
+title = "Run a justfile recipe"
+description = "Picks a recipe from the current project's justfile and puts it on your prompt (add any recipe arguments before pressing Enter)."
+tags = ["just", "tasks"]
+keywords = ["recipe", "justfile", "make", "run"]
+safety = "changes"
+line = "just {recipe}"
+
+[[snippet.input]]
+id = "recipe"
+label = "Recipe"
+strict = true
+[snippet.input.source]
+run = ["just", "--list", "--unsorted", "--list-heading", "", "--list-prefix", ""]
+split = " "
+on_fail = "No justfile found in this folder (or its parents)"
+
+[[snippet]]
+id = "show"
+title = "Inspect a justfile recipe before running it"
+description = "Prints the full body and parameters of a recipe without executing it."
+tags = ["just", "tasks"]
+keywords = ["inspect", "view", "definition", "justfile"]
+safety = "safe"
+line = "just --show {recipe}"
+
+[[snippet.input]]
+id = "recipe"
+label = "Recipe"
+strict = true
+[snippet.input.source]
+run = ["just", "--list", "--unsorted", "--list-heading", "", "--list-prefix", ""]
+split = " "
+on_fail = "No justfile found in this folder (or its parents)"
+
+[[snippet]]
+id = "dry-run"
+title = "Preview a justfile recipe (dry run)"
+description = "Prints the commands a recipe would execute without actually running them."
+tags = ["just", "tasks"]
+keywords = ["preview", "dry run", "test", "justfile"]
+safety = "safe"
+line = "just --dry-run {recipe}"
+
+[[snippet.input]]
+id = "recipe"
+label = "Recipe"
+strict = true
+[snippet.input.source]
+run = ["just", "--list", "--unsorted", "--list-heading", "", "--list-prefix", ""]
+split = " "
+on_fail = "No justfile found in this folder (or its parents)"
+
+[[snippet]]
+id = "list"
+title = "List all recipes in this project's justfile"
+description = "Shows every available recipe and its doc comment."
+tags = ["just", "tasks"]
+keywords = ["recipes", "help", "tasks", "justfile"]
+safety = "safe"
+line = "just --list"
+
+[permissions]
+binaries = "just is a program: goatty downloads official casey/just releases from GitHub and verifies each archive against its pinned SHA-256 digest."
+snippet-sources = "Runs `just --list` (read-only) in the current folder so you can pick a recipe from your project's justfile."

@@ -1,0 +1,246 @@
+schema = 1
+id = "xh"
+name = "xh"
+version = "1.0.0"
+summary = "Friendly, fast HTTP client for testing APIs (modern curl / HTTPie-compatible)"
+description = """
+xh sends HTTP requests with readable, syntax-highlighted output and a concise syntax for \
+JSON bodies and headers (`xh POST example.com/api name=goatty`). It includes tab \
+completion, output formatting settings, optional `http`/`https` aliases, and API request snippets.
+"""
+publisher = "goatty"
+homepage = "https://github.com/ducaale/xh"
+license = "MIT"
+keywords = ["http", "https", "api", "rest", "curl", "httpie", "json", "network"]
+
+[compat]
+# Snippets (#89) and macOS package installs (#97) landed after 0.1.0.
+goatty = ">0.1.0"
+os = ["linux", "macos"]
+
+[[package]]
+id = "xh"
+version = "0.26.3"
+bin = ["xh"]
+completions = ["xh", "--generate", "complete-zsh"]
+
+[[package.asset]]
+target = "x86_64-linux"
+url = "https://github.com/ducaale/xh/releases/download/v0.26.3/xh-v0.26.3-x86_64-unknown-linux-musl.tar.gz"
+sha256 = "cbbf53bd76007d57d95e4bed8ba7fb3b7fcec22af4bdfc1ff119cd5de351e74f"
+size = 4655245
+root = "xh-v0.26.3-x86_64-unknown-linux-musl"
+
+[[package.asset]]
+target = "aarch64-linux"
+url = "https://github.com/ducaale/xh/releases/download/v0.26.3/xh-v0.26.3-aarch64-unknown-linux-musl.tar.gz"
+sha256 = "a45d8cb6c234c6850f9fc2395fc3544ab7691fb511237f00179aedba1bcd525e"
+size = 4253886
+root = "xh-v0.26.3-aarch64-unknown-linux-musl"
+
+[[package.asset]]
+target = "x86_64-macos"
+url = "https://github.com/ducaale/xh/releases/download/v0.26.3/xh-v0.26.3-x86_64-apple-darwin.tar.gz"
+sha256 = "b1c07e42238485bdcbed0982766f58b4daa631f0a33870100054ef5fbb4a3c4b"
+size = 4458554
+root = "xh-v0.26.3-x86_64-apple-darwin"
+
+[[package.asset]]
+target = "aarch64-macos"
+url = "https://github.com/ducaale/xh/releases/download/v0.26.3/xh-v0.26.3-aarch64-apple-darwin.tar.gz"
+sha256 = "50d61bd755942752b054297a1612ec191654f137f8939673cda83c686cb5b0f2"
+size = 4188110
+root = "xh-v0.26.3-aarch64-apple-darwin"
+
+# --- Settings ----------------------------------------------------------------
+
+[[setting]]
+id = "style"
+label = "Color theme"
+help = "Syntax highlighting theme for HTTP headers and JSON/XML bodies."
+type = "choice"
+default = "auto"
+arg = "--style={value}"
+group = "Look"
+choices = [
+  { value = "auto", label = "Automatic", arg = "", help = "xh's default theme." },
+  { value = "solarized", label = "Solarized" },
+  { value = "monokai", label = "Monokai" },
+  { value = "fruity", label = "Fruity" },
+]
+
+[[setting]]
+id = "pretty"
+label = "Output formatting"
+help = "Whether xh colors and pretty-prints responses in the terminal."
+type = "choice"
+default = "all"
+arg = "--pretty={value}"
+group = "Look"
+choices = [
+  { value = "all", label = "Colors and formatting", arg = "", help = "Both syntax colors and JSON/XML indentation (xh default)." },
+  { value = "colors", label = "Colors only", help = "Highlight without reformatting whitespace." },
+  { value = "format", label = "Formatting only", help = "Indent JSON/XML without ANSI colors." },
+  { value = "none", label = "Plain", help = "Raw unformatted response output." },
+]
+
+[[setting]]
+id = "follow"
+label = "Follow redirects"
+help = "Automatically follow HTTP 3xx Location redirects."
+type = "bool"
+default = false
+arg = "--follow"
+group = "Behavior"
+
+[[setting]]
+id = "default_https"
+label = "Default to HTTPS"
+help = "Use https:// instead of http:// when you omit the scheme (e.g. `xh example.com`)."
+type = "bool"
+default = false
+arg = "--https"
+group = "Behavior"
+
+[[setting]]
+id = "http_aliases"
+label = "Add http and https aliases (HTTPie style)"
+help = "Typing `http` runs `xh`, and `https` runs `xh --https`. Off: leaves `http` and `https` untouched if you already use HTTPie or another tool."
+type = "bool"
+default = false
+group = "Commands"
+
+# --- Aliases -----------------------------------------------------------------
+
+[[alias]]
+name = "xh"
+command = "xh"
+args = ["{args}"]
+description = "Run xh with your chosen formatting and behavior settings"
+
+[[alias]]
+name = "http"
+command = "xh"
+args = ["{args}"]
+when = "http_aliases"
+description = "HTTPie-compatible shortcut for xh"
+
+[[alias]]
+name = "https"
+command = "xh"
+args = ["--https", "{args}"]
+when = "http_aliases"
+description = "HTTPie-compatible shortcut for xh over HTTPS"
+
+# --- Snippets ----------------------------------------------------------------
+
+[[snippet]]
+id = "get"
+title = "Send an HTTP GET request"
+description = "Fetches a URL and prints the formatted response headers and body."
+tags = ["http", "api", "xh"]
+keywords = ["curl", "fetch", "get", "request"]
+safety = "safe"
+line = "xh GET {url}"
+
+[[snippet.input]]
+id = "url"
+label = "URL"
+placeholder = "https://api.github.com/zen"
+
+[[snippet]]
+id = "post-json"
+title = "Send an HTTP POST request with JSON data"
+description = "Sends a JSON body using key=value pairs (use := for numbers, booleans, or JSON values)."
+tags = ["http", "api", "xh"]
+keywords = ["curl", "post", "json", "send"]
+safety = "changes"
+line = "xh POST {url} {field}"
+
+[[snippet.input]]
+id = "url"
+label = "URL"
+placeholder = "https://httpbin.org/post"
+
+[[snippet.input]]
+id = "field"
+label = "JSON field (key=value or key:=json)"
+placeholder = "name=goatty"
+
+[[snippet]]
+id = "headers"
+title = "Inspect HTTP response headers only"
+description = "Sends a GET request and prints only the status line and response headers."
+tags = ["http", "api", "xh"]
+keywords = ["curl -I", "head", "headers", "status"]
+safety = "safe"
+line = "xh --headers GET {url}"
+
+[[snippet.input]]
+id = "url"
+label = "URL"
+placeholder = "https://example.com"
+
+[[snippet]]
+id = "bearer"
+title = "Send an authenticated GET request with a Bearer token"
+description = "Adds an Authorization: Bearer header to a GET request."
+tags = ["http", "api", "xh"]
+keywords = ["auth", "token", "jwt", "bearer", "header"]
+safety = "safe"
+line = "xh -A bearer -a {token} GET {url}"
+
+[[snippet.input]]
+id = "url"
+label = "URL"
+placeholder = "https://api.example.com/me"
+
+[[snippet.input]]
+id = "token"
+label = "Bearer token"
+placeholder = "your-token"
+
+[[snippet]]
+id = "download"
+title = "Download a file with xh"
+description = "Downloads a URL to a file in the current directory (following redirects)."
+tags = ["http", "xh"]
+keywords = ["curl -O", "wget", "download", "save"]
+safety = "changes"
+line = "xh --follow --download {url}"
+
+[[snippet.input]]
+id = "url"
+label = "File URL"
+placeholder = "https://example.com/file.tar.gz"
+
+[[snippet]]
+id = "verbose"
+title = "Inspect full HTTP request and response"
+description = "Prints both the outgoing request (headers and body) and the full response."
+tags = ["http", "api", "xh"]
+keywords = ["debug", "curl -v", "verbose", "trace"]
+safety = "safe"
+line = "xh --verbose {method} {url}"
+
+[[snippet.input]]
+id = "method"
+label = "HTTP method"
+type = "choice"
+default = "GET"
+choices = [
+  { value = "GET", label = "GET" },
+  { value = "POST", label = "POST" },
+  { value = "PUT", label = "PUT" },
+  { value = "PATCH", label = "PATCH" },
+  { value = "DELETE", label = "DELETE" },
+]
+
+[[snippet.input]]
+id = "url"
+label = "URL"
+placeholder = "https://httpbin.org/anything"
+
+[permissions]
+binaries = "xh is a program: goatty downloads official ducaale/xh releases from GitHub and verifies each archive against its pinned SHA-256 digest."
+network = "xh is an HTTP client that sends network requests to the URLs you provide."

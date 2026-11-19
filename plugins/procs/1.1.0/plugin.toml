@@ -1,0 +1,110 @@
+schema = 1
+id = "procs"
+name = "procs"
+version = "1.1.0"
+summary = "Modern process viewer with readable columns, tree view, and search"
+description = """
+procs displays running processes with readable columns, colors, tree view, and quick \
+keyword search (e.g. `procs zsh` or `procs --watch`). Installs procs for you (or uses \
+your system copy), adds zsh completions and `psx` as a short alias, and leaves `ps` unchanged.
+"""
+publisher = "goatty"
+homepage = "https://github.com/dalance/procs"
+license = "MIT"
+keywords = ["processes", "ps", "monitor", "search", "tree"]
+
+[compat]
+# Zip archives (#97) and macOS package installs (#97) landed after 0.1.0.
+goatty = ">0.1.0"
+os = ["linux", "macos"]
+
+# Official static-pie Linux zip releases and macOS zip releases from dalance/procs.
+[[package]]
+id = "procs"
+version = "0.14.12"
+bin = ["procs"]
+completions = ["procs", "--gen-completion-out", "zsh"]
+
+[[package.asset]]
+target = "x86_64-linux"
+url = "https://github.com/dalance/procs/releases/download/v0.14.12/procs-v0.14.12-x86_64-linux.zip"
+sha256 = "81964faf9d5cd0e9f399d5d0954fb6fe4d4d9f7d3cbec4507633df5a45b11713"
+size = 2565746
+format = "zip"
+
+[[package.asset]]
+target = "aarch64-linux"
+url = "https://github.com/dalance/procs/releases/download/v0.14.12/procs-v0.14.12-aarch64-linux.zip"
+sha256 = "74b4f82acc6fe553cbd5af20ba0baac420b42bef9bb0cbb38fef14b8317d9f91"
+size = 2400955
+format = "zip"
+
+[[package.asset]]
+target = "x86_64-macos"
+url = "https://github.com/dalance/procs/releases/download/v0.14.12/procs-v0.14.12-x86_64-mac.zip"
+sha256 = "2c276f40c99051984942a5b135b74ce4bc9184984a1543dddfcf275bde71d8d4"
+size = 2233395
+format = "zip"
+
+[[package.asset]]
+target = "aarch64-macos"
+url = "https://github.com/dalance/procs/releases/download/v0.14.12/procs-v0.14.12-aarch64-mac.zip"
+sha256 = "20c7a33426ed7a43c3e13a48f2d1866ecc979a8ad46733f86ddc78ab7f12d49c"
+size = 2095351
+format = "zip"
+
+# --- Settings ----------------------------------------------------------------
+
+[[setting]]
+id = "tree"
+label = "Tree view by default"
+help = "Display processes as a parent-child tree instead of a flat list."
+type = "bool"
+default = false
+arg = "--tree"
+group = "Look"
+
+[[setting]]
+id = "theme"
+label = "Color theme"
+help = "Choose colors tuned for dark or light terminal backgrounds."
+type = "choice"
+default = "auto"
+arg = "--theme={value}"
+group = "Look"
+choices = [
+  { value = "auto", label = "Automatic", arg = "", help = "Let procs detect your terminal background." },
+  { value = "dark", label = "Dark" },
+  { value = "light", label = "Light" },
+]
+
+[[setting]]
+id = "pager"
+label = "Pager"
+help = "Whether long process lists open inside a scrollable pager."
+type = "choice"
+default = "auto"
+arg = "--pager={value}"
+group = "Behavior"
+choices = [
+  { value = "auto", label = "When needed", arg = "", help = "Open a pager only when output exceeds the terminal height." },
+  { value = "always", label = "Always" },
+  { value = "disable", label = "Never", help = "Always print directly to the terminal." },
+]
+
+# --- Aliases -----------------------------------------------------------------
+
+[[alias]]
+name = "procs"
+command = "procs"
+args = ["{args}"]
+description = "Run procs with your chosen settings"
+
+[[alias]]
+name = "psx"
+command = "procs"
+args = ["{args}"]
+description = "Run procs as an alternative process listing"
+
+[permissions]
+binaries = "procs is a program: goatty downloads official dalance/procs zip releases from GitHub and verifies each archive against its pinned SHA-256 digest."

@@ -1,0 +1,91 @@
+schema = 1
+id = "yazi"
+name = "Yazi"
+version = "1.0.0"
+summary = "Fast terminal file manager with image previews, tabs, and `y` cd-on-exit wrapper"
+description = """
+Yazi is a fast, async terminal file manager with Vim-like navigation, multi-tab support, \
+and inline previews (including images in goatty). Use the `y` wrapper command to browse \
+folders and land your shell in the directory you navigated to when you quit with `q` \
+(press `Q` to quit without changing directories). Also installs the `ya` companion CLI.
+"""
+publisher = "goatty"
+homepage = "https://yazi-rs.github.io"
+license = "MIT"
+keywords = ["file-manager", "files", "explorer", "tui", "ranger", "lf", "navigation"]
+
+[compat]
+# Zip archives (#97), macOS package installs (#97), and palette commands landed after 0.1.0.
+goatty = ">0.1.0"
+os = ["linux", "macos"]
+
+[[package]]
+id = "yazi"
+version = "26.9.1"
+bin = ["yazi", "ya"]
+
+[[package.asset]]
+target = "x86_64-linux"
+url = "https://github.com/sxyazi/yazi/releases/download/v26.9.1/yazi-x86_64-unknown-linux-musl.zip"
+sha256 = "9b9c39decccf8cb0ff53a7d637d38f8a79d93bbd0099f4ea9c619ef6bb392f5d"
+size = 14722461
+format = "zip"
+root = "yazi-x86_64-unknown-linux-musl"
+
+[[package.asset]]
+target = "aarch64-linux"
+url = "https://github.com/sxyazi/yazi/releases/download/v26.9.1/yazi-aarch64-unknown-linux-musl.zip"
+sha256 = "dd569daecaae914185f295634109295ccd25c1b42b02eb89a74f651970024f2e"
+size = 14035517
+format = "zip"
+root = "yazi-aarch64-unknown-linux-musl"
+
+[[package.asset]]
+target = "x86_64-macos"
+url = "https://github.com/sxyazi/yazi/releases/download/v26.9.1/yazi-x86_64-apple-darwin.zip"
+sha256 = "36e09036fcc446488d876d139a5e303f2443b82cfb6ac7dfcb43892d6fe6fa20"
+size = 13895685
+format = "zip"
+root = "yazi-x86_64-apple-darwin"
+
+[[package.asset]]
+target = "aarch64-macos"
+url = "https://github.com/sxyazi/yazi/releases/download/v26.9.1/yazi-aarch64-apple-darwin.zip"
+sha256 = "3921182a21cceb0a505e5dac578e1487d48104caa5f114e9f8adf40b5a7289a9"
+size = 12434069
+format = "zip"
+root = "yazi-aarch64-apple-darwin"
+
+# --- Settings ----------------------------------------------------------------
+
+[[setting]]
+id = "y_wrapper"
+label = "Add `y` command (cd on exit)"
+help = "Defines the official `y` shell wrapper so quitting Yazi with `q` changes your shell's working directory to where you navigated. Press `Q` to quit without changing directory."
+type = "bool"
+default = true
+group = "Shell integration"
+
+# --- Palette command ---------------------------------------------------------
+
+[[command]]
+id = "open"
+title = "Open Yazi file manager"
+keywords = ["files", "browse", "explorer", "folder"]
+run = ["yazi", "{dir}"]
+
+[[command.input]]
+id = "dir"
+label = "Folder"
+type = "folder"
+default = "."
+
+# --- Shell code: official `y` wrapper ----------------------------------------
+
+[zsh]
+init = "zsh/init.zsh"
+when = "y_wrapper"
+
+[permissions]
+binaries = "Yazi is a program: goatty downloads official sxyazi/yazi zip releases (`yazi` and `ya`) from GitHub and verifies each archive against its pinned SHA-256 digest."
+shell-code = "Defines the `y` shell function so exiting Yazi with `q` changes your shell's working directory (via a temporary cwd file cleaned up immediately on exit). Nothing runs at shell startup."
