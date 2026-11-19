@@ -1,0 +1,314 @@
+schema = 1
+id = "gh"
+name = "GitHub CLI"
+version = "1.0.0"
+summary = "GitHub from the terminal: pull requests, issues, and CI runs with live suggestions"
+description = """
+gh brings GitHub to the command line: check out pull requests, view issues, create PRs, \
+and inspect or watch GitHub Actions workflow runs without leaving your terminal. Pairs \
+with the git and lazygit plugins; run `gh auth login` once to authenticate. Its snippets \
+and palette commands list live pull requests, issues, and CI runs from your current repository.
+"""
+publisher = "goatty"
+homepage = "https://cli.github.com"
+license = "MIT"
+keywords = ["github", "git", "pr", "pull-request", "issues", "actions", "ci"]
+
+[compat]
+# Snippets (#89), palette command sources (#229), zip archives (#97), and macOS installs (#97) landed after 0.1.0.
+goatty = ">0.1.0"
+os = ["linux", "macos"]
+
+# Official static Go builds from cli/cli.
+[[package]]
+id = "gh"
+version = "2.103.3"
+bin = ["bin/gh"]
+completions = ["gh", "completion", "-s", "zsh"]
+
+[[package.asset]]
+target = "x86_64-linux"
+url = "https://github.com/cli/cli/releases/download/v2.103.3/gh_2.103.3_linux_amd64.tar.gz"
+sha256 = "4c806978ffce1cec70853302a56d70ac6da4f19bae7adca4e1a8ab00633dd91d"
+size = 15031972
+root = "gh_2.103.3_linux_amd64"
+
+[[package.asset]]
+target = "aarch64-linux"
+url = "https://github.com/cli/cli/releases/download/v2.103.3/gh_2.103.3_linux_arm64.tar.gz"
+sha256 = "ee32df2323c8847f5fac6cb6b4b69ca75828e9329a8f22f677021f7b3306ce63"
+size = 13661485
+root = "gh_2.103.3_linux_arm64"
+
+[[package.asset]]
+target = "x86_64-macos"
+url = "https://github.com/cli/cli/releases/download/v2.103.3/gh_2.103.3_macOS_amd64.zip"
+sha256 = "a2f86418f4350ae6e9ec60d5000bdf7665728436946a97fc27fe50e6ae752682"
+size = 15702601
+format = "zip"
+root = "gh_2.103.3_macOS_amd64"
+
+[[package.asset]]
+target = "aarch64-macos"
+url = "https://github.com/cli/cli/releases/download/v2.103.3/gh_2.103.3_macOS_arm64.zip"
+sha256 = "d700207eae9ae98fe2b89535c2c087c07823d4628c56364695a5a07ef311c062"
+size = 14106091
+format = "zip"
+root = "gh_2.103.3_macOS_arm64"
+
+# --- Settings ----------------------------------------------------------------
+
+[[setting]]
+id = "no_pager"
+label = "Disable pager"
+help = "Print gh output directly into the terminal instead of opening a pager (`less`)."
+type = "bool"
+default = false
+group = "Output"
+
+[[setting]]
+id = "no_update_notifier"
+label = "Hide gh self-update notices"
+help = "Suppress gh's built-in 'new release available' banner (useful when goatty manages your gh version)."
+type = "bool"
+default = false
+group = "Behavior"
+advanced = true
+
+# --- Environment -------------------------------------------------------------
+
+[[env]]
+name = "GH_PAGER"
+value = "cat"
+when = "no_pager"
+
+[[env]]
+name = "GH_NO_UPDATE_NOTIFIER"
+value = "1"
+when = "no_update_notifier"
+
+# --- Palette commands --------------------------------------------------------
+
+[[command]]
+id = "pr-checkout"
+title = "Check out a pull request"
+keywords = ["pr", "branch", "review", "github"]
+run = ["gh", "pr", "checkout", "{pr}"]
+
+[[command.input]]
+id = "pr"
+label = "Pull request"
+strict = true
+[command.input.source]
+run = ["gh", "pr", "list", "--limit", "50", "--json", "number,title,headRefName", "--jq", ".[] | [(.number | tostring), .title, .headRefName] | @tsv"]
+split = "\t"
+timeout = 5
+on_fail = "No open pull requests (or not in a GitHub repo / not logged in)"
+
+[[command]]
+id = "run-watch"
+title = "Watch a GitHub Actions run"
+keywords = ["ci", "workflow", "actions", "build"]
+run = ["gh", "run", "watch", "{run}"]
+
+[[command.input]]
+id = "run"
+label = "Workflow run"
+strict = true
+[command.input.source]
+run = ["gh", "run", "list", "--limit", "30", "--json", "databaseId,displayTitle,status,conclusion,headBranch", "--jq", ".[] | [(.databaseId | tostring), .displayTitle, ((if .conclusion != \"\" then .conclusion else .status end) + \" (\" + .headBranch + \")\")] | @tsv"]
+split = "\t"
+label = 2
+detail = 3
+timeout = 5
+on_fail = "No workflow runs found (or not in a GitHub repo / not logged in)"
+
+# --- Snippets ----------------------------------------------------------------
+
+[[snippet]]
+id = "pr-checkout"
+title = "Check out a pull request locally"
+description = "Fetches a pull request's branch and switches your working copy to it so you can test or review it locally."
+tags = ["github", "pr"]
+keywords = ["checkout", "review", "pull request"]
+safety = "changes"
+line = "gh pr checkout {pr}"
+
+[[snippet.input]]
+id = "pr"
+label = "Pull request"
+strict = true
+[snippet.input.source]
+run = ["gh", "pr", "list", "--limit", "50", "--json", "number,title,headRefName", "--jq", ".[] | [(.number | tostring), .title, .headRefName] | @tsv"]
+split = "\t"
+timeout = 5
+on_fail = "No open pull requests (or not in a GitHub repo / not logged in)"
+
+[[snippet]]
+id = "pr-view"
+title = "View a pull request"
+description = "Shows a pull request's description, status, and checks in the terminal (or opens it in your browser)."
+tags = ["github", "pr"]
+keywords = ["open", "inspect", "pull request"]
+safety = "safe"
+line = "gh pr view {pr} {web}"
+
+[[snippet.input]]
+id = "pr"
+label = "Pull request (empty: current branch)"
+optional = true
+[snippet.input.source]
+run = ["gh", "pr", "list", "--limit", "50", "--json", "number,title,headRefName", "--jq", ".[] | [(.number | tostring), .title, .headRefName] | @tsv"]
+split = "\t"
+timeout = 5
+on_fail = "No open pull requests (leave empty for current branch)"
+
+[[snippet.input]]
+id = "web"
+label = "Open in browser?"
+type = "flag"
+on = "--web"
+default = "no"
+
+[[snippet]]
+id = "pr-create"
+title = "Create a pull request from this branch"
+description = "Opens a new pull request on GitHub for the current branch."
+tags = ["github", "pr"]
+keywords = ["new pr", "open pr", "submit"]
+safety = "changes"
+line = "gh pr create {draft} {fill}"
+
+[[snippet.input]]
+id = "draft"
+label = "Create as draft?"
+type = "flag"
+on = "--draft"
+default = "no"
+
+[[snippet.input]]
+id = "fill"
+label = "Pre-fill title and body from commits?"
+type = "flag"
+on = "--fill"
+default = "yes"
+
+[[snippet]]
+id = "pr-checks"
+title = "Check CI status for a pull request"
+description = "Shows the status of checks on a pull request (optionally watching until they finish)."
+tags = ["github", "pr", "ci"]
+keywords = ["checks", "status", "tests", "actions"]
+safety = "safe"
+line = "gh pr checks {pr} {watch}"
+
+[[snippet.input]]
+id = "pr"
+label = "Pull request (empty: current branch)"
+optional = true
+[snippet.input.source]
+run = ["gh", "pr", "list", "--limit", "50", "--json", "number,title,headRefName", "--jq", ".[] | [(.number | tostring), .title, .headRefName] | @tsv"]
+split = "\t"
+timeout = 5
+on_fail = "No open pull requests (leave empty for current branch)"
+
+[[snippet.input]]
+id = "watch"
+label = "Watch until checks finish?"
+type = "flag"
+on = "--watch"
+default = "no"
+
+[[snippet]]
+id = "issue-view"
+title = "View a GitHub issue"
+description = "Shows an issue's description and comments in the terminal (or opens it in your browser)."
+tags = ["github", "issues"]
+keywords = ["issue", "bug", "ticket"]
+safety = "safe"
+line = "gh issue view {issue} {web}"
+
+[[snippet.input]]
+id = "issue"
+label = "Issue"
+strict = true
+[snippet.input.source]
+run = ["gh", "issue", "list", "--limit", "50", "--json", "number,title,author", "--jq", ".[] | [(.number | tostring), .title, (\"@\" + (.author.login // \"ghost\"))] | @tsv"]
+split = "\t"
+timeout = 5
+on_fail = "No open issues (or not in a GitHub repo / not logged in)"
+
+[[snippet.input]]
+id = "web"
+label = "Open in browser?"
+type = "flag"
+on = "--web"
+default = "no"
+
+[[snippet]]
+id = "run-view"
+title = "Inspect a GitHub Actions workflow run"
+description = "Shows jobs and steps of a CI workflow run, optionally printing logs of failed steps."
+tags = ["github", "ci"]
+keywords = ["actions", "logs", "failed", "workflow", "build"]
+safety = "safe"
+line = "gh run view {run} {log_failed}"
+
+[[snippet.input]]
+id = "run"
+label = "Workflow run"
+strict = true
+[snippet.input.source]
+run = ["gh", "run", "list", "--limit", "30", "--json", "databaseId,displayTitle,status,conclusion,headBranch", "--jq", ".[] | [(.databaseId | tostring), .displayTitle, ((if .conclusion != \"\" then .conclusion else .status end) + \" (\" + .headBranch + \")\")] | @tsv"]
+split = "\t"
+label = 2
+detail = 3
+timeout = 5
+on_fail = "No workflow runs found (or not in a GitHub repo / not logged in)"
+
+[[snippet.input]]
+id = "log_failed"
+label = "Show logs of failed steps?"
+type = "flag"
+on = "--log-failed"
+default = "no"
+
+[[snippet]]
+id = "run-watch"
+title = "Watch a running GitHub Actions workflow"
+description = "Follows a workflow run in the terminal until it completes."
+tags = ["github", "ci"]
+keywords = ["actions", "ci", "wait", "build"]
+safety = "safe"
+line = "gh run watch {run}"
+
+[[snippet.input]]
+id = "run"
+label = "Workflow run"
+strict = true
+[snippet.input.source]
+run = ["gh", "run", "list", "--limit", "30", "--json", "databaseId,displayTitle,status,conclusion,headBranch", "--jq", ".[] | [(.databaseId | tostring), .displayTitle, ((if .conclusion != \"\" then .conclusion else .status end) + \" (\" + .headBranch + \")\")] | @tsv"]
+split = "\t"
+label = 2
+detail = 3
+timeout = 5
+on_fail = "No workflow runs found (or not in a GitHub repo / not logged in)"
+
+[[snippet]]
+id = "repo-clone"
+title = "Clone a GitHub repository"
+description = "Clones a GitHub repository by owner/name (using your gh git protocol and credentials)."
+tags = ["github", "git"]
+keywords = ["clone", "download", "repo"]
+safety = "changes"
+line = "gh repo clone {repo}"
+
+[[snippet.input]]
+id = "repo"
+label = "Repository (owner/name)"
+placeholder = "goatty-dev/goatty"
+
+[permissions]
+binaries = "gh is a program: goatty downloads official cli/cli releases from GitHub and verifies each archive against its pinned SHA-256 digest."
+network = "gh communicates with GitHub's API and web endpoints using the credentials you configure with `gh auth login`."
+snippet-sources = "Runs read-only `gh pr list`, `gh issue list`, and `gh run list` queries against the current repository when you open those snippet or palette fields, so you can pick a PR, issue, or CI run from a list."

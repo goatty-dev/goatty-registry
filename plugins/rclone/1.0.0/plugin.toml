@@ -1,0 +1,252 @@
+schema = 1
+id = "rclone"
+name = "rclone"
+version = "1.0.0"
+summary = "Sync and manage files across cloud storage (S3, Google Drive, SFTP, and 70+ backends)"
+description = """
+rclone is rsync for cloud storage: copy, sync, mount, and verify files across S3, Google \
+Drive, Dropbox, OneDrive, SFTP, WebDAV, and dozens of other providers. Run `rclone config` \
+once to add a remote, then use tab completion or snippets (which suggest your configured remotes).
+"""
+publisher = "goatty"
+homepage = "https://rclone.org"
+license = "MIT"
+keywords = ["cloud", "sync", "backup", "s3", "gdrive", "sftp", "storage", "rsync"]
+
+[compat]
+# Zip archives (#97), macOS package installs (#97), and snippets (#89) landed after 0.1.0.
+goatty = ">0.1.0"
+os = ["linux", "macos"]
+
+# Official static Go binaries from rclone/rclone.
+[[package]]
+id = "rclone"
+version = "1.75.2"
+bin = ["rclone"]
+completions = ["rclone", "completion", "zsh", "-"]
+
+[[package.asset]]
+target = "x86_64-linux"
+url = "https://github.com/rclone/rclone/releases/download/v1.75.2/rclone-v1.75.2-linux-amd64.zip"
+sha256 = "349ac8fba6ff65d6247043f1750cdcb518ec5d500ef91463a10d37c0ccdf3702"
+size = 31615572
+format = "zip"
+root = "rclone-v1.75.2-linux-amd64"
+
+[[package.asset]]
+target = "aarch64-linux"
+url = "https://github.com/rclone/rclone/releases/download/v1.75.2/rclone-v1.75.2-linux-arm64.zip"
+sha256 = "7e1e8d69654941b7b7df84ee74c5f7fb09cce7d5496947fb7bf16b55ff427d10"
+size = 28773641
+format = "zip"
+root = "rclone-v1.75.2-linux-arm64"
+
+[[package.asset]]
+target = "x86_64-macos"
+url = "https://github.com/rclone/rclone/releases/download/v1.75.2/rclone-v1.75.2-osx-amd64.zip"
+sha256 = "574e1f31cf1c464e5fb0325cb66fcbdeaf1efa1802bd9b17f13c256fd74b6561"
+size = 35069545
+format = "zip"
+root = "rclone-v1.75.2-osx-amd64"
+
+[[package.asset]]
+target = "aarch64-macos"
+url = "https://github.com/rclone/rclone/releases/download/v1.75.2/rclone-v1.75.2-osx-arm64.zip"
+sha256 = "610ab7d48615135dfc60b763858b11a426a0d3d1160c1bb76fb0ae6011b02edd"
+size = 32648708
+format = "zip"
+root = "rclone-v1.75.2-osx-arm64"
+
+# --- Settings ----------------------------------------------------------------
+
+[[setting]]
+id = "progress"
+label = "Show transfer progress by default"
+help = "Display live speed, percentage, and ETA during copy/sync commands without typing `-P` every time."
+type = "bool"
+default = false
+group = "Output"
+
+[[setting]]
+id = "human_readable"
+label = "Human-readable sizes"
+help = "Show file sizes in KiB, MiB, and GiB instead of raw byte counts."
+type = "bool"
+default = true
+group = "Output"
+
+[[setting]]
+id = "transfers"
+label = "Parallel file transfers"
+help = "How many files rclone transfers at the same time (rclone's default is 4)."
+type = "integer"
+default = 4
+min = 1
+max = 32
+unit = "files"
+group = "Performance"
+advanced = true
+
+# --- Environment -------------------------------------------------------------
+
+[[env]]
+name = "RCLONE_PROGRESS"
+value = "true"
+when = "progress"
+
+[[env]]
+name = "RCLONE_HUMAN_READABLE"
+value = "true"
+when = "human_readable"
+
+[[env]]
+name = "RCLONE_TRANSFERS"
+value = "{transfers}"
+
+# --- Snippets ----------------------------------------------------------------
+
+[[snippet]]
+id = "config"
+title = "Configure a cloud storage remote"
+description = "Opens rclone's interactive setup wizard to add, edit, or remove cloud remotes."
+tags = ["rclone", "cloud"]
+keywords = ["setup", "add remote", "s3", "gdrive", "login"]
+safety = "changes"
+line = "rclone config"
+
+[[snippet]]
+id = "list-remotes"
+title = "List configured cloud remotes"
+description = "Prints the names of all remotes in your rclone configuration."
+tags = ["rclone", "cloud"]
+keywords = ["remotes", "accounts", "backends"]
+safety = "safe"
+line = "rclone listremotes"
+
+[[snippet]]
+id = "lsd"
+title = "List directories on a cloud remote"
+description = "Lists subdirectories at a remote path (pick a remote and optionally append a folder path)."
+tags = ["rclone", "cloud"]
+keywords = ["list", "browse", "folders", "ls"]
+safety = "safe"
+line = "rclone lsd {remote}"
+
+[[snippet.input]]
+id = "remote"
+label = "Remote (and optional path)"
+placeholder = "gdrive:Documents"
+[snippet.input.source]
+run = ["rclone", "listremotes"]
+on_fail = "No remotes configured yet (run `rclone config`)"
+
+[[snippet]]
+id = "copy"
+title = "Copy files to or from a cloud remote"
+description = "Copies new or changed files from source to destination without deleting anything at the destination."
+tags = ["rclone", "cloud", "backup"]
+keywords = ["upload", "download", "transfer", "backup"]
+safety = "changes"
+line = "rclone copy {dry_run} -P {source} {dest}"
+
+[[snippet.input]]
+id = "source"
+label = "Source (local path or remote:path)"
+placeholder = "./backups"
+[snippet.input.source]
+run = ["rclone", "listremotes"]
+on_fail = "Enter a local path or remote:path"
+
+[[snippet.input]]
+id = "dest"
+label = "Destination (local path or remote:path)"
+placeholder = "gdrive:backups"
+[snippet.input.source]
+run = ["rclone", "listremotes"]
+on_fail = "Enter a local path or remote:path"
+
+[[snippet.input]]
+id = "dry_run"
+label = "Dry run first (preview without changing anything)?"
+type = "flag"
+on = "--dry-run"
+default = "no"
+
+[[snippet]]
+id = "sync"
+title = "Sync source to destination (mirrors deletions)"
+description = "Makes destination identical to source, modifying only the destination. Deletes files at the destination that are not in source; dry-run is on by default for safety."
+tags = ["rclone", "cloud", "backup"]
+keywords = ["mirror", "sync", "backup"]
+safety = "destructive"
+line = "rclone sync {dry_run} -P {source} {dest}"
+
+[[snippet.input]]
+id = "source"
+label = "Source (local path or remote:path)"
+placeholder = "./photos"
+[snippet.input.source]
+run = ["rclone", "listremotes"]
+on_fail = "Enter a local path or remote:path"
+
+[[snippet.input]]
+id = "dest"
+label = "Destination (local path or remote:path)"
+placeholder = "gdrive:photos"
+[snippet.input.source]
+run = ["rclone", "listremotes"]
+on_fail = "Enter a local path or remote:path"
+
+[[snippet.input]]
+id = "dry_run"
+label = "Dry run first (preview changes without deleting or copying)?"
+type = "flag"
+on = "--dry-run"
+default = "yes"
+
+[[snippet]]
+id = "size"
+title = "Check total size of a cloud remote path"
+description = "Counts total objects and bytes stored at a remote path."
+tags = ["rclone", "cloud"]
+keywords = ["disk usage", "du", "storage", "count"]
+safety = "safe"
+line = "rclone size {remote}"
+
+[[snippet.input]]
+id = "remote"
+label = "Remote (and optional path)"
+placeholder = "gdrive:"
+[snippet.input.source]
+run = ["rclone", "listremotes"]
+on_fail = "No remotes configured yet (run `rclone config`)"
+
+[[snippet]]
+id = "check"
+title = "Verify files match between source and destination"
+description = "Compares sizes and checksums between source and destination without transferring any data."
+tags = ["rclone", "cloud"]
+keywords = ["verify", "diff", "checksum", "integrity"]
+safety = "safe"
+line = "rclone check {source} {dest}"
+
+[[snippet.input]]
+id = "source"
+label = "Source (local path or remote:path)"
+placeholder = "./backups"
+[snippet.input.source]
+run = ["rclone", "listremotes"]
+on_fail = "Enter a local path or remote:path"
+
+[[snippet.input]]
+id = "dest"
+label = "Destination (local path or remote:path)"
+placeholder = "gdrive:backups"
+[snippet.input.source]
+run = ["rclone", "listremotes"]
+on_fail = "Enter a local path or remote:path"
+
+[permissions]
+binaries = "rclone is a program: goatty downloads official rclone/rclone zip releases from GitHub and verifies each archive against its pinned SHA-256 digest."
+network = "rclone connects to the cloud storage providers and remote servers you configure."
+snippet-sources = "Runs `rclone listremotes` (reads your local rclone config only, no network access) to suggest configured remote names in rclone snippets."

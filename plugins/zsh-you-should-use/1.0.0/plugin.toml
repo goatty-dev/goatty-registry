@@ -1,0 +1,91 @@
+schema = 1
+id = "zsh-you-should-use"
+name = "You Should Use"
+version = "1.0.0"
+summary = "Reminds you when an alias already exists for a command you just typed"
+description = """
+zsh-you-should-use watches the commands you run and prints a short reminder whenever you \
+already have an alias for them — a great companion to goatty's curated plugin aliases \
+(such as eza, bat, docker, and ripgrep) so you actually learn and remember them. Uses \
+your distribution's copy if installed, and downloads the pinned release otherwise.
+"""
+publisher = "goatty"
+homepage = "https://github.com/MichaelAquilina/zsh-you-should-use"
+license = "GPL-3.0-only"
+keywords = ["alias", "aliases", "zsh", "reminder", "learning", "productivity"]
+
+[compat]
+goatty = ">=0.0.1"
+os = ["linux", "macos"]
+
+[[package]]
+id = "zsh-you-should-use"
+version = "1.11.1"
+source = "you-should-use.plugin.zsh"
+system_paths = [
+  "/usr/share/zsh/plugins/zsh-you-should-use/you-should-use.plugin.zsh",             # Arch (AUR)
+  "/usr/share/zsh-you-should-use/you-should-use.plugin.zsh",                         # Debian, Ubuntu, Fedora
+  "/usr/local/share/zsh-you-should-use/you-should-use.plugin.zsh",                   # Homebrew (Intel)
+  "/opt/homebrew/share/zsh-you-should-use/you-should-use.plugin.zsh",                # Homebrew (Apple silicon)
+  "/run/current-system/sw/share/zsh/plugins/you-should-use/you-should-use.plugin.zsh", # NixOS
+]
+
+[[package.asset]]
+target = "any"
+url = "https://github.com/MichaelAquilina/zsh-you-should-use/archive/refs/tags/1.11.1.tar.gz"
+sha256 = "4d884aed12f1301f4620888e322c406c215b719e49385aa3088dc84c8ed383ed"
+size = 114192
+root = "zsh-you-should-use-1.11.1"
+
+# --- Settings ----------------------------------------------------------------
+
+[[setting]]
+id = "position"
+label = "Reminder position"
+help = "Whether the alias reminder prints before the command's output or after the command finishes."
+type = "choice"
+default = "before"
+group = "Behavior"
+choices = [
+  { value = "before", label = "Before command output", help = "Prints the reminder right away before the command runs." },
+  { value = "after", label = "After command output", help = "Prints the reminder once the command finishes, so long output doesn't scroll it away." },
+]
+
+[[setting]]
+id = "mode"
+label = "Matching mode"
+help = "What to show when more than one alias matches the command you typed."
+type = "choice"
+default = "BESTMATCH"
+group = "Behavior"
+choices = [
+  { value = "BESTMATCH", label = "Best match only", help = "Suggest only the single most specific matching alias." },
+  { value = "ALL", label = "All matching aliases", help = "List every alias that matches the command." },
+]
+
+[[setting]]
+id = "hardcore"
+label = "Hardcore mode"
+help = "Cancel the command instead of running it whenever an alias exists, forcing you to use your aliases."
+type = "bool"
+default = false
+group = "Behavior"
+advanced = true
+
+# --- Environment -------------------------------------------------------------
+
+[[env]]
+name = "YSU_MESSAGE_POSITION"
+value = "{position}"
+
+[[env]]
+name = "YSU_MODE"
+value = "{mode}"
+
+[[env]]
+name = "YSU_HARDCORE"
+value = "1"
+when = "hardcore"
+
+[permissions]
+binaries = "zsh-you-should-use is a zsh plugin: unless your distribution's copy is installed, goatty downloads the pinned release tarball from GitHub (MichaelAquilina/zsh-you-should-use) and verifies its SHA-256 digest."

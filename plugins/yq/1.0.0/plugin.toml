@@ -1,0 +1,216 @@
+schema = 1
+id = "yq"
+name = "yq"
+version = "1.0.0"
+summary = "Command-line YAML, JSON, and TOML processor (like jq for config files)"
+description = """
+yq reads, queries, converts, and updates YAML, JSON, TOML, XML, and INI files using \
+jq-like expressions — ideal for inspecting Kubernetes manifests, GitHub Actions workflows, \
+and project config files, or updating a field in place without breaking comments.
+"""
+publisher = "goatty"
+homepage = "https://mikefarah.gitbook.io/yq/"
+license = "MIT"
+keywords = ["yaml", "json", "toml", "config", "filter", "convert", "jq"]
+
+[compat]
+# Snippets (#89) and macOS package installs (#97) landed after 0.1.0.
+goatty = ">0.1.0"
+os = ["linux", "macos"]
+
+# Uses upstream's standalone Go binaries (static on Linux) directly so goatty installs
+# the executable as `yq` (upstream's .tar.gz archives name the binary `yq_linux_amd64`).
+[[package]]
+id = "yq"
+version = "4.54.1"
+bin = ["yq"]
+completions = ["yq", "shell-completion", "zsh"]
+
+[[package.asset]]
+target = "x86_64-linux"
+url = "https://github.com/mikefarah/yq/releases/download/v4.54.1/yq_linux_amd64"
+sha256 = "8e34fc298390875de416e6a4afcb8cabeceb25d9aa8506c1a2f9353cf702ea5f"
+size = 14168224
+format = "binary"
+
+[[package.asset]]
+target = "aarch64-linux"
+url = "https://github.com/mikefarah/yq/releases/download/v4.54.1/yq_linux_arm64"
+sha256 = "189088da0c6429ec5178dfaab1a114805f6cab0b61b165ab236efedf1d57a71b"
+size = 13172896
+format = "binary"
+
+[[package.asset]]
+target = "x86_64-macos"
+url = "https://github.com/mikefarah/yq/releases/download/v4.54.1/yq_darwin_amd64"
+sha256 = "3a812fce205a4d67014fb71b7fa297092210e580df3d8f52dddc2cf3a599c22b"
+size = 14395840
+format = "binary"
+
+[[package.asset]]
+target = "aarch64-macos"
+url = "https://github.com/mikefarah/yq/releases/download/v4.54.1/yq_darwin_arm64"
+sha256 = "fee511a181bd8b3e6b7da98842b41973bfac8cd3bcd341ed29a584620b5b2844"
+size = 13414050
+format = "binary"
+
+# --- Settings ----------------------------------------------------------------
+
+[[setting]]
+id = "indent"
+label = "Indentation"
+help = "How many spaces yq uses to indent YAML and JSON output."
+type = "choice"
+default = "2"
+group = "Output"
+choices = [
+  { value = "2", label = "2 spaces", arg = "", help = "yq's default two-space indentation." },
+  { value = "4", label = "4 spaces", arg = "--indent=4" },
+]
+
+[[setting]]
+id = "colors"
+label = "Colors"
+help = "Colorize YAML output in the terminal."
+type = "choice"
+default = "auto"
+group = "Output"
+choices = [
+  { value = "auto", label = "Automatic", arg = "", help = "Colored in a terminal; plain when piped to another command." },
+  { value = "always", label = "Always", arg = "--colors" },
+  { value = "never", label = "Never", arg = "--no-colors" },
+]
+
+# --- Aliases -----------------------------------------------------------------
+
+[[alias]]
+name = "yq"
+command = "yq"
+args = ["{args}"]
+description = "Run yq with your chosen formatting settings"
+
+# --- Snippets ----------------------------------------------------------------
+
+[[snippet]]
+id = "pretty"
+title = "Pretty-print a YAML file"
+description = "Formats and syntax-highlights a YAML file."
+tags = ["yaml", "yq"]
+keywords = ["format", "view", "config"]
+safety = "safe"
+line = "yq . {file}"
+
+[[snippet.input]]
+id = "file"
+label = "YAML file"
+type = "path"
+must_exist = true
+
+[[snippet]]
+id = "query"
+title = "Query a value from a YAML or config file"
+description = "Reads a field from a YAML, JSON, or TOML file using a yq expression."
+tags = ["yaml", "yq"]
+keywords = ["extract", "read", "field", "config"]
+safety = "safe"
+line = "yq {expr} {file}"
+
+[[snippet.input]]
+id = "expr"
+label = "yq expression"
+placeholder = ".services | keys"
+
+[[snippet.input]]
+id = "file"
+label = "Config file"
+type = "path"
+must_exist = true
+
+[[snippet]]
+id = "update"
+title = "Update a field in a YAML file in place"
+description = "Modifies a YAML file directly while preserving its comments and formatting."
+tags = ["yaml", "yq"]
+keywords = ["edit", "set", "in-place", "modify"]
+safety = "changes"
+line = "yq -i {expr} {file}"
+
+[[snippet.input]]
+id = "expr"
+label = "Assignment expression"
+placeholder = ".version = \"2.0.0\""
+
+[[snippet.input]]
+id = "file"
+label = "YAML file"
+type = "path"
+must_exist = true
+
+[[snippet]]
+id = "yaml-to-json"
+title = "Convert a YAML file to JSON"
+description = "Prints a YAML file converted to formatted JSON."
+tags = ["yaml", "json", "yq"]
+keywords = ["convert", "export", "json"]
+safety = "safe"
+line = "yq -o=json {file}"
+
+[[snippet.input]]
+id = "file"
+label = "YAML file"
+type = "path"
+must_exist = true
+
+[[snippet]]
+id = "json-to-yaml"
+title = "Convert a JSON file to YAML"
+description = "Prints a JSON file converted to clean YAML."
+tags = ["yaml", "json", "yq"]
+keywords = ["convert", "export", "yaml"]
+safety = "safe"
+line = "yq -P -o=yaml {file}"
+
+[[snippet.input]]
+id = "file"
+label = "JSON file"
+type = "path"
+must_exist = true
+
+[[snippet]]
+id = "toml-to-yaml"
+title = "Convert a TOML file to YAML"
+description = "Parses a TOML file and prints it as YAML."
+tags = ["yaml", "toml", "yq"]
+keywords = ["convert", "toml"]
+safety = "safe"
+line = "yq -p=toml -o=yaml {file}"
+
+[[snippet.input]]
+id = "file"
+label = "TOML file"
+type = "path"
+must_exist = true
+
+[[snippet]]
+id = "merge"
+title = "Merge two YAML files"
+description = "Deep-merges two YAML files so keys in the override file replace keys in the base file."
+tags = ["yaml", "yq"]
+keywords = ["combine", "override", "deep merge"]
+safety = "safe"
+line = "yq eval-all 'select(fileIndex == 0) * select(fileIndex == 1)' {base} {override}"
+
+[[snippet.input]]
+id = "base"
+label = "Base YAML file"
+type = "path"
+must_exist = true
+
+[[snippet.input]]
+id = "override"
+label = "Override YAML file"
+type = "path"
+must_exist = true
+
+[permissions]
+binaries = "yq is a program: goatty downloads official mikefarah/yq release binaries from GitHub and verifies each file against its pinned SHA-256 digest."

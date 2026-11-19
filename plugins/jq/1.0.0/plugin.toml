@@ -1,0 +1,190 @@
+schema = 1
+id = "jq"
+name = "jq"
+version = "1.0.0"
+summary = "Command-line JSON processor: pretty-print, filter, and transform JSON"
+description = """
+jq slices, filters, formats, and transforms JSON data on the command line — great for \
+inspecting API responses and config files. Installing jq also makes goatty's built-in \
+`| as json` expansion (`| jq .`) work out of the box.
+"""
+publisher = "goatty"
+homepage = "https://jqlang.org"
+license = "MIT"
+keywords = ["json", "filter", "parse", "format", "pretty-print", "api"]
+
+[compat]
+# Snippets (#89) and macOS package installs (#97) landed after 0.1.0.
+goatty = ">0.1.0"
+os = ["linux", "macos"]
+
+# Official static Linux binaries and macOS binaries from jqlang/jq.
+[[package]]
+id = "jq"
+version = "1.8.2"
+bin = ["jq"]
+
+[[package.asset]]
+target = "x86_64-linux"
+url = "https://github.com/jqlang/jq/releases/download/jq-1.8.2/jq-linux-amd64"
+sha256 = "b1c22172dd303f3be49e935aa56aa48a8b7a46e0bc838b4997d3bb451495870f"
+size = 2267912
+format = "binary"
+
+[[package.asset]]
+target = "aarch64-linux"
+url = "https://github.com/jqlang/jq/releases/download/jq-1.8.2/jq-linux-arm64"
+sha256 = "8b85c817833814ddca00a144c33705546355afccf0cf39b188f3cdb48b852309"
+size = 1797688
+format = "binary"
+
+[[package.asset]]
+target = "x86_64-macos"
+url = "https://github.com/jqlang/jq/releases/download/jq-1.8.2/jq-macos-amd64"
+sha256 = "e94b266e3c26690550006abe63152b782280f4e14374accdf04cbde844f00bc0"
+size = 871768
+format = "binary"
+
+[[package.asset]]
+target = "aarch64-macos"
+url = "https://github.com/jqlang/jq/releases/download/jq-1.8.2/jq-macos-arm64"
+sha256 = "2d75340ba57a4b4b4c8708a21c2dc8e958a48aaa8bba13b27f77f6e4c0eca07e"
+size = 841504
+format = "binary"
+
+# --- Settings ----------------------------------------------------------------
+
+[[setting]]
+id = "indent"
+label = "Indentation"
+help = "How jq indents formatted JSON output."
+type = "choice"
+default = "2"
+group = "Output"
+choices = [
+  { value = "2", label = "2 spaces", arg = "", help = "jq's default two-space indentation." },
+  { value = "4", label = "4 spaces", arg = "--indent=4" },
+  { value = "tab", label = "Tabs", arg = "--tab" },
+]
+
+[[setting]]
+id = "sort_keys"
+label = "Sort object keys"
+help = "Always print JSON object keys in alphabetical order, which makes outputs easier to compare and diff."
+type = "bool"
+default = false
+arg = "--sort-keys"
+group = "Output"
+
+# --- Aliases -----------------------------------------------------------------
+
+[[alias]]
+name = "jq"
+command = "jq"
+args = ["{args}"]
+description = "Run jq with your chosen formatting settings"
+
+# --- Snippets ----------------------------------------------------------------
+
+[[snippet]]
+id = "pretty"
+title = "Pretty-print a JSON file"
+description = "Formats a JSON file with indentation and syntax colors."
+tags = ["json", "jq"]
+keywords = ["format", "indent", "beautify", "view"]
+safety = "safe"
+line = "jq . {file}"
+
+[[snippet.input]]
+id = "file"
+label = "JSON file"
+type = "path"
+must_exist = true
+
+[[snippet]]
+id = "keys"
+title = "List the top-level keys of a JSON file"
+description = "Prints the sorted key names of the top-level JSON object (or indices of an array)."
+tags = ["json", "jq"]
+keywords = ["inspect", "fields", "properties", "schema"]
+safety = "safe"
+line = "jq keys {file}"
+
+[[snippet.input]]
+id = "file"
+label = "JSON file"
+type = "path"
+must_exist = true
+
+[[snippet]]
+id = "query"
+title = "Query a field from a JSON file"
+description = "Evaluates a jq filter expression on a JSON file and prints the matching JSON values."
+tags = ["json", "jq"]
+keywords = ["extract", "filter", "select", "field"]
+safety = "safe"
+line = "jq {filter} {file}"
+
+[[snippet.input]]
+id = "filter"
+label = "jq filter"
+placeholder = ".items[].name"
+
+[[snippet.input]]
+id = "file"
+label = "JSON file"
+type = "path"
+must_exist = true
+
+[[snippet]]
+id = "raw"
+title = "Extract plain text values from JSON"
+description = "Runs a jq filter with -r so string results are printed without surrounding quotes (handy for piping to other commands)."
+tags = ["json", "jq"]
+keywords = ["raw", "unquoted", "string", "extract"]
+safety = "safe"
+line = "jq -r {filter} {file}"
+
+[[snippet.input]]
+id = "filter"
+label = "jq filter"
+placeholder = ".items[].name"
+
+[[snippet.input]]
+id = "file"
+label = "JSON file"
+type = "path"
+must_exist = true
+
+[[snippet]]
+id = "compact"
+title = "Minify a JSON file onto one line"
+description = "Removes whitespace and newlines to output compact JSON."
+tags = ["json", "jq"]
+keywords = ["minify", "one line", "compress"]
+safety = "safe"
+line = "jq -c . {file}"
+
+[[snippet.input]]
+id = "file"
+label = "JSON file"
+type = "path"
+must_exist = true
+
+[[snippet]]
+id = "sort-keys"
+title = "Format JSON with sorted keys"
+description = "Pretty-prints a JSON file with all object keys sorted alphabetically, making two files easier to diff."
+tags = ["json", "jq"]
+keywords = ["sort", "diff", "canonical", "compare"]
+safety = "safe"
+line = "jq --sort-keys . {file}"
+
+[[snippet.input]]
+id = "file"
+label = "JSON file"
+type = "path"
+must_exist = true
+
+[permissions]
+binaries = "jq is a program: goatty downloads official jqlang/jq release binaries from GitHub and verifies each file against its pinned SHA-256 digest."
