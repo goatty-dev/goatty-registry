@@ -84,7 +84,7 @@ choices = [
 ]
 
 [[setting]]
-id = "native_tls"
+id = "system_certs"
 label = "Use system TLS certificates"
 help = "Load TLS certificates from your operating system's trust store instead of uv's bundled certificates. Helpful behind corporate proxies or custom CAs."
 type = "bool"
@@ -114,9 +114,9 @@ value = "{python_preference}"
 when = "python_preference!=managed"
 
 [[env]]
-name = "UV_NATIVE_TLS"
+name = "UV_SYSTEM_CERTS"
 value = "true"
-when = "native_tls"
+when = "system_certs"
 
 [[env]]
 name = "UV_OFFLINE"
@@ -169,12 +169,19 @@ description = "Removes a package from pyproject.toml and updates the virtual env
 tags = ["python", "uv"]
 keywords = ["uninstall", "pip uninstall", "dependency"]
 safety = "changes"
-line = "uv remove {package}"
+line = "uv remove {dev} {package}"
 
 [[snippet.input]]
 id = "package"
 label = "Package"
 placeholder = "httpx"
+
+[[snippet.input]]
+id = "dev"
+label = "Remove from development dependencies?"
+type = "flag"
+on = "--dev"
+default = "no"
 
 [[snippet]]
 id = "sync"

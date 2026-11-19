@@ -168,7 +168,7 @@ description = "Prints a JSON file converted to clean YAML."
 tags = ["yaml", "json", "yq"]
 keywords = ["convert", "export", "yaml"]
 safety = "safe"
-line = "yq -P {file}"
+line = "yq -P -o=yaml {file}"
 
 [[snippet.input]]
 id = "file"

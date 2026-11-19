@@ -220,7 +220,7 @@ title = "Inspect full HTTP request and response"
 description = "Prints both the outgoing request (headers and body) and the full response."
 tags = ["http", "api", "xh"]
 keywords = ["debug", "curl -v", "verbose", "trace"]
-safety = "safe"
+safety = "changes"
 line = "xh --verbose {method} {url}"
 
 [[snippet.input]]
