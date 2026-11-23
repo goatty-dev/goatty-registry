@@ -1,8 +1,9 @@
 {
   "format": 1,
   "registry": "official",
-  "sequence": 6,
-  "generated": 1795117155,
+  "sequence": 7,
+  "generated": 1795473680,
+  "expires": 1803249680,
   "plugins": {
     "atuin": {
       "name": "Atuin",
