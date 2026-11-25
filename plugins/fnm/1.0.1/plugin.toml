@@ -1,0 +1,168 @@
+schema = 1
+id = "fnm"
+name = "fnm"
+version = "1.0.1"
+summary = "Fast, simple Node.js version manager with automatic switching on `cd`"
+description = """
+fnm (Fast Node Manager) installs and switches Node.js versions in milliseconds and reads \
+`.node-version` and `.nvmrc` files automatically as you move between projects. Note: fnm \
+downloads Node.js builds from nodejs.org (or your configured mirror) itself, outside \
+goatty's SHA-256 verification chain.
+"""
+publisher = "goatty"
+homepage = "https://fnm.vercel.app"
+license = "GPL-3.0-only"
+keywords = ["node", "nodejs", "npm", "nvm", "javascript", "typescript", "runtime"]
+
+[compat]
+# Zip archives (#97), macOS package installs (#97), and snippets (#89) landed after 0.1.0.
+goatty = ">0.1.0"
+os = ["linux", "macos"]
+
+# Linux uses upstream's static-pie zip builds; macOS uses upstream's universal
+# Mach-O binary (x86_64 + arm64) listed under both macOS targets.
+[[package]]
+id = "fnm"
+version = "1.39.0"
+bin = ["fnm"]
+completions = ["fnm", "completions", "--shell", "zsh"]
+
+[[package.asset]]
+target = "x86_64-linux"
+url = "https://github.com/Schniz/fnm/releases/download/v1.39.0/fnm-linux.zip"
+sha256 = "7807664f39d39fc518da1c35ba0181e4b3267603c4b1dedeb4b5fc6ae440a224"
+size = 3360953
+format = "zip"
+
+[[package.asset]]
+target = "aarch64-linux"
+url = "https://github.com/Schniz/fnm/releases/download/v1.39.0/fnm-arm64.zip"
+sha256 = "4eaff58b2c5bf30d0934027572dd0b5bbb60d2a1af309230b53662d4b1d45599"
+size = 3685524
+format = "zip"
+
+[[package.asset]]
+target = "x86_64-macos"
+url = "https://github.com/Schniz/fnm/releases/download/v1.39.0/fnm-macos.zip"
+sha256 = "f046483e85c53b3278efe49a3620c8680f22efa58a8dabfd03eafc6b59b31a25"
+size = 6268849
+format = "zip"
+
+[[package.asset]]
+target = "aarch64-macos"
+url = "https://github.com/Schniz/fnm/releases/download/v1.39.0/fnm-macos.zip"
+sha256 = "f046483e85c53b3278efe49a3620c8680f22efa58a8dabfd03eafc6b59b31a25"
+size = 6268849
+format = "zip"
+
+# --- Settings ----------------------------------------------------------------
+
+[[setting]]
+id = "use_on_cd"
+label = "Switch Node.js version automatically on cd"
+help = "When you enter a folder with a `.node-version` or `.nvmrc` file, automatically activate that Node.js version."
+type = "bool"
+default = true
+group = "Shell hook"
+
+[[setting]]
+id = "version_file_strategy"
+label = "Where to look for version files"
+help = "Whether fnm searches parent folders for `.node-version` / `.nvmrc` or only the current folder."
+type = "choice"
+default = "recursive"
+group = "Shell hook"
+choices = [
+  { value = "recursive", label = "Current and parent folders", help = "Recommended for monorepos and subdirectories." },
+  { value = "local", label = "Current folder only" },
+]
+
+[[setting]]
+id = "resolve_engines"
+label = "Read engines.node from package.json"
+help = "Treat the `engines.node` field in `package.json` as a Node.js version file when switching versions."
+type = "bool"
+default = false
+group = "Shell hook"
+advanced = true
+
+[[setting]]
+id = "corepack_enabled"
+label = "Enable Corepack automatically"
+help = "Run `corepack enable` (for Yarn and pnpm shims) automatically whenever fnm installs a new Node.js version."
+type = "bool"
+default = false
+group = "Behavior"
+advanced = true
+
+# --- Shell code: fnm's own env hook ------------------------------------------
+
+[zsh]
+init = "zsh/init.zsh"
+
+# --- Snippets ----------------------------------------------------------------
+
+[[snippet]]
+id = "install-lts"
+title = "Install the latest Node.js LTS version"
+description = "Downloads and installs the current Long-Term Support release of Node.js via fnm."
+tags = ["node", "fnm"]
+keywords = ["nodejs", "lts", "install", "nvm"]
+safety = "changes"
+line = "fnm install --lts"
+
+[[snippet]]
+id = "install"
+title = "Install a Node.js version"
+description = "Downloads and installs a specific Node.js version (such as 22, 20.18.0, or lts-latest)."
+tags = ["node", "fnm"]
+keywords = ["nodejs", "version", "download", "nvm"]
+safety = "changes"
+line = "fnm install {version}"
+
+[[snippet.input]]
+id = "version"
+label = "Node.js version"
+placeholder = "22"
+
+[[snippet]]
+id = "use"
+title = "Switch Node.js version in this shell"
+description = "Activates an installed Node.js version for the current terminal session."
+tags = ["node", "fnm"]
+keywords = ["nodejs", "switch", "activate", "nvm use"]
+safety = "safe"
+line = "fnm use {version}"
+
+[[snippet.input]]
+id = "version"
+label = "Node.js version"
+placeholder = "22"
+
+[[snippet]]
+id = "default"
+title = "Set the default Node.js version"
+description = "Sets which installed Node.js version fnm activates in new shells by default."
+tags = ["node", "fnm"]
+keywords = ["nodejs", "default", "nvm alias default"]
+safety = "changes"
+line = "fnm default {version}"
+
+[[snippet.input]]
+id = "version"
+label = "Node.js version"
+placeholder = "lts-latest"
+
+[[snippet]]
+id = "list"
+title = "List installed Node.js versions"
+description = "Shows all Node.js versions installed locally by fnm and which one is active."
+tags = ["node", "fnm"]
+keywords = ["nodejs", "versions", "ls"]
+safety = "safe"
+line = "fnm list"
+
+[permissions]
+binaries = "fnm is a program: goatty downloads official Schniz/fnm zip releases from GitHub and verifies each archive against its pinned SHA-256 digest."
+shell-code = "Runs `fnm env --shell zsh` with your chosen options to put your active Node.js version on PATH. When automatic switching is on, it also adds a `cd` hook that runs `fnm use` only if a version file is found, or (with parent-folder search) a default Node.js version is set. Nothing else."
+network = "fnm downloads Node.js runtime builds from nodejs.org (or your configured mirror) itself, outside goatty's SHA-256 verification chain."
