@@ -22,6 +22,7 @@ A plugin is a reviewed, declarative `plugin.toml`: which program to download (pi
 | [micro](plugins/micro) | Friendly terminal editor with goatty theme colors, optional `nano` alias, `$EDITOR`, and `sudoedit` (`se`) | micro 2.0.15 | clipboard check + optional `se` |
 | [docker](plugins/docker) | Tab completion and short aliases for your Docker CLI | – (uses yours) | cached `docker completion zsh` |
 | [atuin](plugins/atuin) | Shell history in a database: full-screen search on Ctrl+R, optional sync between machines | Atuin 18.24.2 | `atuin init zsh` |
+| [Exit Vim](plugins/exit-vim) | Palette commands to exit Vim (and save, undo, find, replace…), only while Vim or Neovim runs | – (types keys into your Vim) | – |
 
 ## Layout
 

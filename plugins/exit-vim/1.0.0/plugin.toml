@@ -1,0 +1,183 @@
+schema = 1
+id = "exit-vim"
+name = "Exit Vim"
+version = "1.0.0"
+summary = "Never search for \"how to exit Vim\" again: quit, save, undo and search in Vim from goatty's command palette"
+description = """
+Stuck in Vim? Open the command palette (Ctrl+Shift+P) and pick "Exit Vim": choose how (save and quit, \
+quit without saving, …) and goatty types the right keys into Vim for you. A few more commands cover what \
+people who don't use Vim every day need most: save, undo, redo, go to a line, find, find and replace, \
+and line numbers. They only show up while Vim or Neovim runs in the focused terminal, so they stay out of \
+your way everywhere else. Bind "Exit Vim" to a shortcut in Settings → Shortcuts and it only takes that key \
+inside Vim. This plugin doesn't install Vim and doesn't run anything: it only types keys into the Vim you \
+already have open."""
+publisher = "goatty"
+homepage = "https://www.vim.org/"
+license = "MIT"
+keywords = ["vim", "neovim", "nvim", "vi", "exit", "quit", "editor", "help"]
+
+[compat]
+# Palette commands that send keys to the program in the pane (goatty#240) landed in 0.3.0.
+goatty = ">=0.3.0"
+
+# Every command starts with <Esc> so it works from insert or visual mode too: in normal mode an extra
+# <Esc> does nothing. Text inputs are typed into Vim's command line as they are, so the ones that end up
+# inside a search pattern can't contain / or \ (\V makes everything else literal).
+
+# --- Exit -----------------------------------------------------------------------
+
+[[command]]
+id = "quit"
+title = "Exit Vim"
+keywords = ["quit", "close", "leave", "get out", "stuck", "help", ":q", ":wq", ":q!"]
+keys = ["<Esc>", ":{how}", "<Enter>"]
+
+[command.pane]
+programs = ["vim", "nvim", "vi", "view", "vimdiff"]
+
+[[command.input]]
+id = "how"
+label = "How do you want to leave?"
+type = "choice"
+default = "wq"
+choices = [
+  { value = "wq", label = "Save and quit", help = ":wq saves your changes, then closes the file" },
+  { value = "q", label = "Quit", help = ":q closes the file. Vim refuses if there are unsaved changes" },
+  { value = "q!", label = "Quit without saving", help = ":q! closes the file and throws your changes away" },
+  { value = "wqa", label = "Save everything and quit", help = ":wqa saves every open file, then quits Vim" },
+  { value = "qa!", label = "Quit everything without saving", help = ":qa! quits Vim right away and throws away all unsaved changes" },
+]
+
+# --- Files ----------------------------------------------------------------------
+
+[[command]]
+id = "save"
+title = "Save the file"
+keywords = ["write", ":w", "store"]
+keys = ["<Esc>", ":w", "<Enter>"]
+
+[command.pane]
+programs = ["vim", "nvim", "vi", "view", "vimdiff"]
+
+[[command]]
+id = "save-as"
+title = "Save the file under a new name"
+keywords = ["save as", "write", "saveas", "rename", "copy"]
+keys = ["<Esc>", ":saveas {name}", "<Enter>"]
+
+[command.pane]
+programs = ["vim", "nvim", "view", "vimdiff"]
+
+[[command.input]]
+id = "name"
+label = "New file name"
+help = "Relative to the folder Vim was started in. Vim edits the new file from then on"
+placeholder = "notes-copy.txt"
+pattern = "[^ \\\\|\"%#]+"
+pattern_help = "a file name without spaces and without \\ | \" % #"
+
+# --- Editing --------------------------------------------------------------------
+
+[[command]]
+id = "undo"
+title = "Undo"
+keywords = ["revert", "oops", "back", "u"]
+keys = ["<Esc>", "u"]
+
+[command.pane]
+programs = ["vim", "nvim", "vi", "view", "vimdiff"]
+
+[[command]]
+id = "redo"
+title = "Redo"
+keywords = ["again", "forward", "ctrl+r"]
+keys = ["<Esc>", "<C-r>"]
+
+[command.pane]
+programs = ["vim", "nvim", "view", "vimdiff"]
+
+[[command]]
+id = "go-to-line"
+title = "Go to line"
+keywords = ["jump", "line number", "goto"]
+keys = ["<Esc>", ":{line}", "<Enter>"]
+
+[command.pane]
+programs = ["vim", "nvim", "vi", "view", "vimdiff"]
+
+[[command.input]]
+id = "line"
+label = "Line number"
+type = "integer"
+min = 1
+default = "1"
+
+[[command]]
+id = "find"
+title = "Find text"
+keywords = ["search", "look for", "/"]
+keys = ["<Esc>", "/\\V{text}", "<Enter>"]
+
+[command.pane]
+programs = ["vim", "nvim", "view", "vimdiff"]
+
+[[command.input]]
+id = "text"
+label = "Text to find"
+help = "Found exactly as typed. Afterwards, n jumps to the next match and N to the previous one"
+pattern = "[^/\\\\]+"
+pattern_help = "anything except / and \\"
+
+[[command]]
+id = "replace"
+title = "Find and replace in the whole file"
+keywords = ["substitute", "replace all", ":%s", "change"]
+keys = ["<Esc>", ":%snomagic/\\V{find}/{replace}/{flags}", "<Enter>"]
+
+[command.pane]
+programs = ["vim", "nvim", "view", "vimdiff"]
+
+[[command.input]]
+id = "find"
+label = "Find"
+help = "Matched exactly as typed"
+pattern = "[^/\\\\]+"
+pattern_help = "anything except / and \\"
+
+[[command.input]]
+id = "replace"
+label = "Replace with"
+help = "Empty deletes every match"
+optional = true
+pattern = "[^/\\\\]*"
+pattern_help = "anything except / and \\"
+
+[[command.input]]
+id = "flags"
+label = "Ask before each change?"
+type = "choice"
+default = "gc"
+choices = [
+  { value = "gc", label = "Ask each time", help = "Vim highlights each match: press y to replace it, n to skip it, a to replace all the rest, q to stop" },
+  { value = "g", label = "Replace all at once", help = "Replaces every match right away. Undo takes it all back" },
+]
+
+# --- View -----------------------------------------------------------------------
+
+[[command]]
+id = "line-numbers"
+title = "Show or hide line numbers"
+keywords = ["number", "set number", "lines"]
+keys = ["<Esc>", ":set number!", "<Enter>"]
+
+[command.pane]
+programs = ["vim", "nvim", "vi", "view", "vimdiff"]
+
+[[command]]
+id = "clear-highlight"
+title = "Clear the search highlighting"
+keywords = ["nohlsearch", "noh", "highlight", "yellow"]
+keys = ["<Esc>", ":nohlsearch", "<Enter>"]
+
+[command.pane]
+programs = ["vim", "nvim", "view", "vimdiff"]
